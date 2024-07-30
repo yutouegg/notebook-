@@ -1,0 +1,36 @@
+site_name: 我的学习笔记
+site_author: Your Name
+site_description: 个人学习笔记和心得
+
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotation
+    - content.code.copy
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: 切换到深色模式
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: 切换到浅色模式
+
+nav:
+  - 首页: index.md
+  - Langchain:
+    - ch01提示词: langchain学习/ch01_提示词.md
+    - ch02记忆: langchain学习/ch02_memery.md
+    - ch03Huggingface: langchain学习/ch03_langchain使用huggingface.md
+  - Lora微调:
+    - Lora微调: Lora微调/Lora微调.md
+  - 数据问答:
+    - 数据问答: 数据问答/展示系统.md
