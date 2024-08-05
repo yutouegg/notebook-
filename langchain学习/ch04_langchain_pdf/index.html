@@ -13,6 +13,10 @@
       
       
       
+        <link rel="prev" href="../ch03_langchain%E4%BD%BF%E7%94%A8huggingface/">
+      
+      
+        <link rel="next" href="../../Lora%E5%BE%AE%E8%B0%83/Lora%E5%BE%AE%E8%B0%83/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +24,7 @@
     
     
       
-        <title>Ch04 长文本摘要 - 我的学习笔记</title>
+        <title>ch0304langchain_pdf - 我的学习笔记</title>
       
     
     
@@ -71,6 +75,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#pdf" class="md-skip">
+          跳转至
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -101,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Ch04 长文本摘要
+              ch0304langchain_pdf
             
           </span>
         </div>
@@ -213,10 +222,12 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../ch01_%E6%8F%90%E7%A4%BA%E8%AF%8D/" class="md-tabs__link">
           
   
@@ -341,25 +352,30 @@
       
   
   
+    
   
   
+  
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -370,7 +386,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Langchain
@@ -435,6 +451,147 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    ch0304langchain_pdf
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    ch0304langchain_pdf
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      通过提取PDF内容进行问答
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="通过提取PDF内容进行问答">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.导入相关的库:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.读取pdf文件
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.读取pdf文件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#way1pypdf2" class="md-nav__link">
+    <span class="md-ellipsis">
+      way1：通过PyPDF2库：
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#way2langchainpypdfloader" class="md-nav__link">
+    <span class="md-ellipsis">
+      way2：通过langchain自带PyPDFLoader导入
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      3、分词与存向量库:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4chainprompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.定义问答chain，处理输入prompt：
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.主逻辑：
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -666,9 +823,126 @@
                   
 
 
-  <h1>Ch04 长文本摘要</h1>
+  <h1>ch0304langchain_pdf</h1>
+
+<h2 id="pdf">通过提取PDF内容进行问答</h2>
+<h3 id="1">1.导入相关的库:</h3>
+<pre><code class="language-commandline">import streamlit as st
+from PyPDF2 import PdfReader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+import os
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+import google.generativeai as genai
+from langchain_community.vectorstores import FAISS
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain.chains.question_answering import load_qa_chain
+from langchain.prompts import PromptTemplate
+from dotenv import load_dotenv
+
+load_dotenv()
+os.getenv(&quot;GOOGLE_API_KEY&quot;)
+genai.configure(api_key=os.getenv(&quot;GOOGLE_API_KEY&quot;))
+
+</code></pre>
+<p>load_dotenv的作用是更安全的加载密钥，通过os.getenv("GOOGLE_API_KEY")这句代码从.env文件从提取谷歌的密钥</p>
+<h3 id="2pdf">2.读取pdf文件</h3>
+<h4 id="way1pypdf2"><em>way1：通过PyPDF2库</em>：</h4>
+<pre><code class="language-commandline">def get_pdf_text(pdf_docs):
+    text=&quot;&quot;
+    for pdf in pdf_docs:
+        pdf_reader= PdfReader(pdf)
+        for page in pdf_reader.pages:
+            text+= page.extract_text()
+    return  text
+
+</code></pre>
+<h4 id="way2langchainpypdfloader"><em>way2：通过langchain自带PyPDFLoader导入</em></h4>
+<pre><code class="language-commandline">from langchain_community.document_loaders import PyPDFLoader
+def get_pdf_text(pdf_docs):
+    text=&quot;&quot;
+    for pdf in pdf_docs:
+        pdf_reader= PyPDFLoader(pdf)
+        for page in pdf_reader.pages:
+            text+= page.extract_text()
+    return  text
+</code></pre>
+<p>当然这只是使用的库不同，pyPDF作为专门处理PDF的库还有许多其他作用，这只是读取PDF文件，两者并没有多大的差别  </p>
+<h3 id="3">3、分词与存向量库:</h3>
+<pre><code class="language-commandline">def get_text_chunks(text):
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=1000)
+    chunks = text_splitter.split_text(text)
+    return chunks
 
 
+def get_vector_store(text_chunks):
+    embeddings = GoogleGenerativeAIEmbeddings(model = &quot;models/embedding-001&quot;)
+    vector_store = FAISS.from_texts(text_chunks, embedding=embeddings)
+    vector_store.save_local(&quot;faiss_index&quot;)
+
+</code></pre>
+<p>将读取的pdf分成若干段落，每一段的大小是10000，重叠为1000，这个大小的选择与问答的质量有很大的关系。后通过embedding-001嵌入模型将文本进行向量化后存入faiss向量库  </p>
+<h3 id="4chainprompt">4.定义问答chain，处理输入prompt：</h3>
+<pre><code class="language-commandline">def get_conversational_chain():
+
+    prompt_template = &quot;&quot;&quot;
+    Answer the question as detailed as possible from the provided context, make sure to provide all the details, if the answer is not in
+    provided context just say, &quot;answer is not available in the context&quot;, don't provide the wrong answer\n\n
+    Context:\n {context}?\n
+    Question: \n{question}\n
+
+    Answer:
+    &quot;&quot;&quot;
+
+    model = ChatGoogleGenerativeAI(model=&quot;gemini-pro&quot;,
+                             temperature=0.3)
+
+    prompt = PromptTemplate(template = prompt_template, input_variables = [&quot;context&quot;, &quot;question&quot;])
+    chain = load_qa_chain(model, chain_type=&quot;stuff&quot;, prompt=prompt)
+
+    return chain
+
+
+
+def user_input(user_question):
+    embeddings = GoogleGenerativeAIEmbeddings(model = &quot;models/embedding-001&quot;)
+
+    new_db = FAISS.load_local(&quot;faiss_index&quot;, embeddings)
+    docs = new_db.similarity_search(user_question)
+
+    chain = get_conversational_chain()
+
+
+    response = chain(
+        {&quot;input_documents&quot;:docs, &quot;question&quot;: user_question}
+        , return_only_outputs=True)
+
+    print(response)
+    st.write(&quot;Reply: &quot;, response[&quot;output_text&quot;])
+
+</code></pre>
+<p>将faiss向量库内容检索加载出来通过tempeletprompt传给gmini模型进行问答  </p>
+<h3 id="5">5.主逻辑：</h3>
+<pre><code class="language-commandline">def main():
+    st.set_page_config(&quot;Chat PDF&quot;)
+    st.header(&quot;Chat with PDF using Gemini💁&quot;)
+
+    user_question = st.text_input(&quot;Ask a Question from the PDF Files&quot;)
+
+    if user_question:
+        user_input(user_question)
+
+    with st.sidebar:
+        st.title(&quot;Menu:&quot;)
+        pdf_docs = st.file_uploader(&quot;Upload your PDF Files and Click on the Submit &amp; Process Button&quot;, accept_multiple_files=True)
+        if st.button(&quot;Submit &amp; Process&quot;):
+            with st.spinner(&quot;Processing...&quot;):
+                raw_text = get_pdf_text(pdf_docs)
+                text_chunks = get_text_chunks(raw_text)
+                get_vector_store(text_chunks)
+                st.success(&quot;Done&quot;)
+
+</code></pre>
+<p>创造一个streamlit展示界面，可供用户上传pdf进行问答  </p>
 
 
 
