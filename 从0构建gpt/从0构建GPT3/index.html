@@ -13,10 +13,6 @@
       
       
       
-        <link rel="prev" href="../../langchain%E5%AD%A6%E4%B9%A0/ch06_LLM%E8%AF%84%E4%BC%B0/">
-      
-      
-        <link rel="next" href="../../%E6%95%B0%E6%8D%AE%E9%97%AE%E7%AD%94/%E5%B1%95%E7%A4%BA%E7%B3%BB%E7%BB%9F/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -24,7 +20,7 @@
     
     
       
-        <title>Lora微调 - 我的学习笔记</title>
+        <title>从0构建GPT3 - 我的学习笔记</title>
       
     
     
@@ -76,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#1lora" class="md-skip">
+        <a href="#1" class="md-skip">
           跳转至
         </a>
       
@@ -110,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Lora微调
+              从0构建GPT3
             
           </span>
         </div>
@@ -240,13 +236,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../Lora%E5%BE%AE%E8%B0%83/Lora%E5%BE%AE%E8%B0%83/" class="md-tabs__link">
           
   
   Lora微调
@@ -543,30 +537,25 @@
       
   
   
-    
   
   
-  
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -577,7 +566,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Lora微调
@@ -588,28 +577,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Lora微调
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../Lora%E5%BE%AE%E8%B0%83/Lora%E5%BE%AE%E8%B0%83/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -618,135 +589,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1lora" class="md-nav__link">
-    <span class="md-ellipsis">
-      1.什么是Lora
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="1.什么是Lora">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#11" class="md-nav__link">
-    <span class="md-ellipsis">
-      1.1全量微调：
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#12" class="md-nav__link">
-    <span class="md-ellipsis">
-      1.2替代方案：
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#13lora" class="md-nav__link">
-    <span class="md-ellipsis">
-      1.3Lora微调：
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2lorabliblipeft" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.Lora微调blibli大模型(PEFT)：
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2.Lora微调blibli大模型(PEFT)：">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#21" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.1模型下载：
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#22" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2指令集的构建
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#23tokenizer" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.3加载模型和Tokenizer
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#24loraconfig" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.4定义LoraConfig:
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#25train" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.5定义Train的参数并训练
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#26lora" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.6加载lora微调
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -978,136 +820,199 @@
                   
 
 
-  <h1>Lora微调</h1>
+  <h1>从0构建GPT3</h1>
 
-<h2 id="1lora">1.什么是Lora</h2>
-<h3 id="11">1.1全量微调：</h3>
-<p>顾名思义，就是把大模型所有的参数都进行微调。但是随着大模型的发展，动辄大几十几百B，全量微调的压力也越发的大。  </p>
-<h3 id="12">1.2替代方案：</h3>
-<ul>
-<li>Adapt Tuning：在训练中加入Adapt层，训练过程中固定其他参数只更新Adapt层的参数</li>
-<li>P-tuning：他在每个问题之前添加一个可学习的前缀，就可以用来专门训练一个专业技能。如想微调大模型来专门回答历史问题，而不希望修改模型的所有参数。就可以使用P-tuning，在每个问题之前添加一个可学习的前缀，如 “历史专家：”  </li>
-</ul>
-<h3 id="13lora">1.3Lora微调：</h3>
-<p>LoRA 的核心思想是通过训练低秩矩阵捕捉任务特定的变化，而保持预训练模型的大部分参数不变。低秩矩阵表示信息的压缩，只需少量参数就能近似描述数据的主要特征。
-假设你有一幅高分辨率的图片（预训练模型），但只想调整颜色（适应特定任务）。你不需要修改每个像素（全参数微调），而是可以应用一个简单的滤镜（低秩矩阵）来达到效果。这种滤镜可以用很少的参数描述，却能显著改变图片的整体色调。这就类似于 LoRA 的低秩适应方法。</p>
-<h2 id="2lorabliblipeft">2.Lora微调blibli大模型(PEFT)：</h2>
-<h3 id="21">2.1模型下载：</h3>
+<p><a href="https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt">训练集</a>在这，采用了莎士比亚的作品子集当作训练集，共111万字符  </p>
+<h2 id="1">1.数据</h2>
+<h3 id="11">1.1.数据集观察：</h3>
+<pre><code class="language-commandline">chars = sorted(list(set(text)))
+vocab_size = len(chars)
+print(''.join(chars))
+print(vocab_size)
+</code></pre>
+<p>作用是打印词表的大小，运行结果如下：<br />
+ !$&amp;',-.3:;?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz<br />
+65  </p>
+<h3 id="12">1.2.构建编码器与解码器：</h3>
+<pre><code class="language-commandline">stoi = { ch:i for i,ch in enumerate(chars) }
+itos = { i:ch for i,ch in enumerate(chars) }
+encode = lambda s: [stoi[c] for c in s] 
+decode = lambda l: ''.join([itos[i] for i in l]) 
+
+print(encode(&quot;hi I'am here&quot;))
+print(decode([46, 47, 1, 21, 5, 39, 51, 1, 46, 43, 56, 43]))
+</code></pre>
+<p>运行结果：<br />
+[46, 47, 1, 21, 5, 39, 51, 1, 46, 43, 56, 43]<br />
+hi I'am here<br />
+这里采用的是最简单的按照字符位置编码，当然个人觉得也可以再加特殊字符以表示句子的开始结束  </p>
+<h3 id="13">1.3.训练集的切分</h3>
+<pre><code class="language-commandline">import torch 
+data = torch.tensor(encode(text), dtype=torch.long)
+print(data.shape, data.dtype)
+print(data[:1000]) 
+</code></pre>
+<p>这块代码很明显就是将文本转变成tensor格式的数据以便训练  </p>
+<pre><code class="language-commandline">n = int(0.9*len(data)) 
+train_data = data[:n]
+val_data = data[n:]
+</code></pre>
+<p>切分训练集，前百分之九十为训练集  </p>
+<pre><code class="language-commandline">block_size = 8
+train_data[:block_size+1]
+x = train_data[:block_size]
+y = train_data[1:block_size+1]
+for t in range(block_size):
+    context = x[:t+1]
+    target = y[t]
+    print(f&quot;when input is {context} the target: {target}&quot;)
+</code></pre>
+<p>训练块大小定义成8，意思是1推2，1和2推3，以此类推。训练块和当前大模型所说的上下文长度是一回事。个人更喜欢理解为滑动窗口训练  </p>
+<pre><code class="language-commandline">def get_batch(split):
+    # generate a small batch of data of inputs x and targets y
+    data = train_data if split == 'train' else val_data
+    ix = torch.randint(len(data) - block_size, (batch_size,))
+    x = torch.stack([data[i:i+block_size] for i in ix])
+    y = torch.stack([data[i+1:i+block_size+1] for i in ix])
+    return x, y
+</code></pre>
+<p>定义了一个随机选取（batch，block）大小的数据  </p>
+<h2 id="2">2.模型构建</h2>
+<h3 id="21">2.1最简单的二元模型，损失，生成的构建：</h3>
 <pre><code class="language-commandline">import torch
-from modelscope import snapshot_download, AutoModel, AutoTokenizer
-import os
+import torch.nn as nn
+from torch.nn import functional as F
+torch.manual_seed(1337)
 
-model_dir = snapshot_download('IndexTeam/Index-1.9B-Chat', cache_dir='model_path', revision='master') #版本选master是因为一般master是稳定的版本
+class BigramLanguageModel(nn.Module):
+
+    def __init__(self, vocab_size):
+        super().__init__()
+        self.token_embedding_table = nn.Embedding(vocab_size, vocab_size)
+
+    def forward(self, idx, targets=None):
+        #idx和target就可以理解是上面的xb和yb，二者的行状都是（B，T）
+        logits = self.token_embedding_table(idx) # (B,T,C)
+
+        if targets is None:
+            loss = None
+        else:
+            B, T, C = logits.shape
+            logits = logits.view(B*T, C)
+            targets = targets.view(B*T)
+            loss = F.cross_entropy(logits, targets)
+
+        return logits, loss
+
+    def generate(self, idx, max_new_tokens):
+        for _ in range(max_new_tokens):
+            logits, loss = self(idx)
+            # 只关注最后一个
+            logits = logits[:, -1, :] # becomes (B, C)
+            # 通过softmax
+            probs = F.softmax(logits, dim=-1) # (B, C)
+
+            idx_next = torch.multinomial(probs, num_samples=1) # (B, 1)
+
+            idx = torch.cat((idx, idx_next), dim=1) # (B, T+1)
+        return idx
+
+m = BigramLanguageModel(vocab_size)
+logits, loss = m(xb, yb)
+print(logits.shape)
+print(loss)
+
+print(decode(m.generate(idx = torch.zeros((1, 1), dtype=torch.long), max_new_tokens=100)[0].tolist()))
 </code></pre>
-<h3 id="22">2.2指令集的构建</h3>
-<p>训练集选择从网上找到一个关于甄嬛语气的训练集，内容如下：  </p>
-<p><img alt="训练集" src="../../image/微调/01.png" /></p>
-<p>其中，instruction 是用户指令，告知模型其需要完成的任务；input 是用户输入，是完成用户指令所必须的输入内容；output 是模型应该给出的输出。  </p>
-<p>数据格式化代码如下：</p>
-<pre><code class="language-commandline">def process_func(example):
-    MAX_LENGTH = 384    # 分词器会将一个中文字切分为多个token，因此需要放开一些最大长度，保证数据的完整性
-    input_ids, attention_mask, labels = [], [], []
-    instruction = tokenizer(f&quot;&lt;unk&gt;system现在你要扮演皇帝身边的女人--甄嬛reserved_0user{example['instruction'] + example['input']}reserved_1assistant&quot;, add_special_tokens=False)  # add_special_tokens 不在开头加 special_tokens
-    response = tokenizer(f&quot;{example['output']}&quot;, add_special_tokens=False)
-    input_ids = instruction[&quot;input_ids&quot;] + response[&quot;input_ids&quot;] + [tokenizer.pad_token_id]
-    attention_mask = instruction[&quot;attention_mask&quot;] + response[&quot;attention_mask&quot;] + [1]  # 因为eos token也是要关注的所以 补充为1
-    labels = [-100] * len(instruction[&quot;input_ids&quot;]) + response[&quot;input_ids&quot;] + [tokenizer.pad_token_id]  
-    if len(input_ids) &gt; MAX_LENGTH:  # 做一个截断
-        input_ids = input_ids[:MAX_LENGTH]
-        attention_mask = attention_mask[:MAX_LENGTH]
-        labels = labels[:MAX_LENGTH]
-    return {
-        &quot;input_ids&quot;: input_ids,
-        &quot;attention_mask&quot;: attention_mask,
-        &quot;labels&quot;: labels
-    }
+<p>从简单的二元模型开始理解，forward函数就是将idx通过self.token_embedding_table函数映射到了词表维度上，然后根据cross_entropy（）对传入参数的行状要求传入数据返回损失函数
+generate（）函数就是刚刚理解的滑动窗口将输入的idx依次从词表概率中通过torch.multinomial函数抽出下一个单词
+生成结果很随机，这次的运行结果是：Sr?qP-QWktXoL&amp;jLDJgOLVz'RIoDqHdhsV&amp;vLLxatjscMpwLERSPyao.qfzs$Ys$zF-w,;eEkzxjgCKFChs!iWW.ObzDnxA Ms$3<br />
+因为maxtoken是100，使用生成了一百个乱七八糟的东西。<br />
+结果很差，当然我们也可以训练一下模型:</p>
+<pre><code>optimizer = torch.optim.AdamW(m.parameters(), lr=1e-3) #定义优化器
+batch_size = 32
+for steps in range(100): # epoch是一百
+
+    # sample a batch of data
+    xb, yb = get_batch('train')
+
+    # evaluate the loss
+    logits, loss = m(xb, yb)
+    optimizer.zero_grad(set_to_none=True)
+    loss.backward()
+    optimizer.step()
+
+print(loss.item())
+
+print(decode(m.generate(idx = torch.zeros((1, 1), dtype=torch.long), max_new_tokens=500)[0].tolist()))#再看一下结果
 </code></pre>
-<p>这个训练集的构建也有点像P—tuning，在训练中加了前缀“现在你要扮演皇帝身边的女人--甄嬛”
-process_func函数返回一个字典包含 input_ids、attention_mask 和 labels三个部分：<br />
-* input_ids：将输入的文本编码传给模型
-* attention_mask：表示模型需要关注哪些地方，一般填充的不太需要关注
-* 回答的文本编码</p>
-<h3 id="23tokenizer">2.3加载模型和Tokenizer</h3>
-<pre><code class="language-commandline">tokenizer = AutoTokenizer.from_pretrained('/root/autodl-tmp/Tsumugii24/Index-1.9B-Chat/', use_fast=False, trust_remote_code=True)
-
-model = AutoModelForCausalLM.from_pretrained('/root/autodl-tmp/Tsumugii24/Index-1.9B-Chat/', device_map=&quot;auto&quot;, trust_remote_code=True, torch_dtype=torch.bfloat16)
+<p>当然这只是一个将最后一个字符推理通过softmax函数推测下一个，效果肯定一般。运行结果如下：<br />
+xiKi-RJ:CgqVuUa!U?qMH.uk!sCuMXvv!CJFfx;LgRyJknOEti.?I&amp;-gPlLyulId?XlaInQ'q,lT$<br />
+3Q&amp;sGlvHQ?mqSq-eON<br />
+x?SP fUAfCAuCX:bOlgiRQWN:Mphaw<br />
+tRLKuYXEaAXxrcq-gCUzeh3w!AcyaylgYWjmJM?Uzw:inaY,:C&amp;OECW:vmGGJAn3onAuMgia!ms$Vb q-gCOcPcUhOnxJGUGSPJWT:.?ujmJFoiNYWA'DxY,prZ?qdT;hoo'dHooXXlxf'WkHK&amp;u3Q?rqUi.kz;?Yx?C&amp;u3Qbfzxlyh'Vl:zyxjKXgC?eDT'QKFiBeviNxO'm!Upm$srm&amp;TqViqiBD3HBP!juEOpmZJyF$Fwfy!PlvWPFC
+&amp;WDdP!Ko,px<br />
+x<br />
+tREOE;AJ.BeXkylOVD3KHp$e?nD,.SFbWWI'ubcL!q-tU;aXmJ&amp;uGXHxJXI&amp;Z!gHRpajj;l.<br />
+pTErIBjx;JKIgoCnLGXrJSP!Ac-AcbczR?    </p>
+<p>增加训练的次数到一万，再次运行：<br />
+Iyoteng h hasbe pave pirance<br />
+Rie hicomyonthar's<br />
+Plinseard ith henoure wounonthioneir thondy, y heltieiengerofo'dsssit ey<br />
+KIN d pe wither vouprrouthercc.<br />
+hathe; d!<br />
+My hind tt hinig t ouchos tes; st yo hind wotte grotonear 'so it t jod weancotha:<br />
+h hay.JUCle n prids, r loncave w hollular s O:<br />
+HIs; ht anjx?  </p>
+<p>DUThinqunt.</p>
+<p>LaZAnde.<br />
+athave l.<br />
+KEONH:<br />
+ARThanco be y,-hedarwnoddy scace, tridesar, wnl'shenous s ls, theresseys<br />
+PlorseelapinghiybHen yof GLUCEN t l-t E:<br />
+I hisgothers je are!-e!<br />
+QLYotouciullle'z  <br />
+就可以看到起码像样了  </p>
+<h3 id="22">2.2构建特征</h3>
+<p><em>way1：</em></p>
+<pre><code class="language-commandline">xbow = torch.zeros((B,T,C))
+for b in range(B):
+    for t in range(T):
+        xprev = x[b,:t+1] # (t,C)
+        xbow[b,t] = torch.mean(xprev, 0)
 </code></pre>
-<h3 id="24loraconfig">2.4定义LoraConfig:</h3>
-<pre><code class="language-commandline">config = LoraConfig(
-    task_type=TaskType.CAUSAL_LM, 
-    target_modules=[&quot;q_proj&quot;, &quot;k_proj&quot;, &quot;v_proj&quot;, &quot;o_proj&quot;, &quot;gate_proj&quot;, &quot;up_proj&quot;, &quot;down_proj&quot;],
-    inference_mode=False, # 训练模式
-    r=8, # 决定了低秩矩阵的维度
-    lora_alpha=32, # 缩放因子
-    lora_dropout=0.1 # Dropout 比例
-)
+<p>显而易见就是用之前量的平均值来实现对之前特征的提取  </p>
+<pre><code class="language-commandline">wei = torch.tril(torch.ones(T, T))
+wei = wei / wei.sum(1, keepdim=True)
+xbow2 = wei @ x # (B, T, T) @ (B, T, C) ----&gt; (B, T, C)
+torch.allclose(xbow, xbow2)
 </code></pre>
-<h3 id="25train">2.5定义Train的参数并训练</h3>
-<pre><code class="language-commandline">args = TrainingArguments(
-    output_dir=&quot;./output/Index-1.9B-Chat-lora&quot;,
-    per_device_train_batch_size=4,
-    gradient_accumulation_steps=4,
-    logging_steps=10,
-    num_train_epochs=3,
-    save_steps=100,
-    learning_rate=1e-4,
-    save_on_each_node=True,
-    gradient_checkpointing=True
-   )
+<p>这是通过向量计算快速得到的平均值特征</p>
+<p><em>way2(重头戏)：</em></p>
+<pre><code class="language-commandline">torch.manual_seed(1337)
+B,T,C = 4,8,32 # batch, time, channels
+x = torch.randn(B,T,C)
 
-trainer = Trainer(
-    model=model,
-    args=args,
-    train_dataset=tokenized_id,
-    data_collator=DataCollatorForSeq2Seq(tokenizer=tokenizer, padding=True),
-)
+head_size = 16
+key = nn.Linear(C, head_size, bias=False)
+query = nn.Linear(C, head_size, bias=False)
+value = nn.Linear(C, head_size, bias=False)
+k = key(x)   # (B, T, 16)
+q = query(x) # (B, T, 16)
+wei =  q @ k.transpose(-2, -1) # (B, T, 16) @ (B, 16, T) ---&gt; (B, T, T)
 
-trainer.train()
+tril = torch.tril(torch.ones(T, T))
+#wei = torch.zeros((T,T))
+wei = wei.masked_fill(tril == 0, float('-inf'))
+wei = F.softmax(wei, dim=-1)
 
+v = value(x)
+out = wei @ v
+#out = wei @ x
+
+out.shape
 </code></pre>
-<p>后等待训练就好了...  </p>
-<h3 id="26lora">2.6加载lora微调</h3>
-<p>微调完成后当然就得调用啦:</p>
-<pre><code class="language-commandline">from transformers import AutoModelForCausalLM, AutoTokenizer
-import torch
-from peft import PeftModel
-
-model_path = 'model_path'
-lora_path = 'lora_path'
-
-# 加载tokenizer
-tokenizer = AutoTokenizer.from_pretrained(model_path)
-
-# 加载模型
-model = AutoModelForCausalLM.from_pretrained(model_path, device_map=&quot;auto&quot;,torch_dtype=torch.bfloat16)
-
-# 加载lora权重
-model = PeftModel.from_pretrained(model, model_id=lora_path, config=config)
-
-prompt = &quot;你是谁？&quot;
-messages = [
-    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;现在你要扮演皇帝身边的女人--甄嬛&quot;},
-    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}
-]
-
-text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-
-model_inputs = tokenizer([text], return_tensors=&quot;pt&quot;).to('cuda')
-
-generated_ids = model.generate(
-    model_inputs.input_ids,
-    max_new_tokens=512
-)
-generated_ids = [
-    output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
-]
-
-response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
-
-print(response)
-</code></pre>
-<p>这就完成了基础的微调了，1.9B的模型训练集也不大，我在3090上训练不到半个小时就完成了一次微调。
-后续我习惯是使用llama.cpp将模型量化传到ollama进行调用</p>
+<p>用自注意力构建</p>
 
 
 
