@@ -50,6 +50,8 @@
       
     
     
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -282,7 +284,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../从0构建GPT/从0构建GPT.md" class="md-tabs__link">
+        <a href="../../%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/" class="md-tabs__link">
           
   
   从0构建GPT
@@ -892,7 +894,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../从0构建GPT/从0构建GPT.md" class="md-nav__link">
+      <a href="../../%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -998,85 +1000,86 @@
 
   <h1>ch06LLM评估</h1>
 
-<h2 id="_1">大模型评估</h2>
-<h3 id="1">1.大模型评估方法：</h3>
+<h2 id="_1">大模型评估<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="1">1.大模型评估方法：<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
 <p>在具体的大模型应用开发中，我们可以找到 Bad Cases，并不断针对性优化 Prompt 或检索架构来解决 Bad Cases，从而优化系统的表现。我们会将找到的每一个 Bad Case 都加入到我们的验证集中，每一次优化之后，我们会重新对验证集中所有验证案例进行验证，从而保证优化后的 系统不会在原有 Good Case 上失去能力或表现降级。   </p>
-<h4 id="1_1">1.当验证机比较小：人工验证</h4>
-<h5 id="11">1.1量化评估：</h5>
+<h4 id="1_1">1.当验证机比较小：人工验证<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h4>
+<h5 id="11">1.1量化评估：<a class="headerlink" href="#11" title="Permanent link">&para;</a></h5>
 <p>如评价下放两种方案：</p>
-<h6 id="1prompt-a">1.Prompt A：</h6>
-<pre><code class="language-commandline">from langchain.prompts import PromptTemplate
-from langchain.chains import RetrievalQA
+<h6 id="1prompt-a">1.Prompt A：<a class="headerlink" href="#1prompt-a" title="Permanent link">&para;</a></h6>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.prompts</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">PromptTemplate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">RetrievalQA</span>
 
 
-template_v1 = &quot;&quot;&quot;使用以下上下文来回答最后的问题。如果你不知道答案，就说你不知道，不要试图编造答
-案。最多使用三句话。尽量使答案简明扼要。总是在回答的最后说“谢谢你的提问！”。
-{context}
-问题: {question}
-&quot;&quot;&quot;
+<span class="n">template_v1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;&quot;使用以下上下文来回答最后的问题。如果你不知道答案，就说你不知道，不要试图编造答</span>
+<span class="s2">案。最多使用三句话。尽量使答案简明扼要。总是在回答的最后说“谢谢你的提问！”。</span>
+<span class="si">{context}</span>
+<span class="s2">问题: </span><span class="si">{question}</span>
+<span class="s2">&quot;&quot;&quot;</span>
 
-QA_CHAIN_PROMPT = PromptTemplate(input_variables=[&quot;context&quot;,&quot;question&quot;],
-                                 template=template_v1)
+<span class="n">QA_CHAIN_PROMPT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PromptTemplate</span><span class="p">(</span><span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;context&quot;</span><span class="p">,</span><span class="s2">&quot;question&quot;</span><span class="p">],</span>
+<span class="w">                                 </span><span class="n">template</span><span class="o">=</span><span class="n">template_v1</span><span class="p">)</span>
 
 
 
-qa_chain = RetrievalQA.from_chain_type(llm,
-                                       retriever=vectordb.as_retriever(),
-                                       return_source_documents=True,
-                                       chain_type_kwargs={&quot;prompt&quot;:QA_CHAIN_PROMPT})
+<span class="n">qa_chain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RetrievalQA</span><span class="o">.</span><span class="n">from_chain_type</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span>
+<span class="w">                                       </span><span class="n">retriever</span><span class="o">=</span><span class="n">vectordb</span><span class="o">.</span><span class="n">as_retriever</span><span class="p">(),</span>
+<span class="w">                                       </span><span class="n">return_source_documents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="w">                                       </span><span class="n">chain_type_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;prompt&quot;</span><span class="p">:</span><span class="n">QA_CHAIN_PROMPT</span><span class="p">})</span>
 
-print(&quot;问题一：&quot;)
-question = &quot;南瓜书和西瓜书有什么关系？&quot;
-result = qa_chain({&quot;query&quot;: question})
-print(result[&quot;result&quot;])
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;问题一：&quot;</span><span class="p">)</span>
+<span class="n">question</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;南瓜书和西瓜书有什么关系？&quot;</span>
+<span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qa_chain</span><span class="p">({</span><span class="s2">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">question</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">])</span>
 
-print(&quot;问题二：&quot;)
-question = &quot;应该如何使用南瓜书？&quot;
-result = qa_chain({&quot;query&quot;: question})
-print(result[&quot;result&quot;])
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;问题二：&quot;</span><span class="p">)</span>
+<span class="n">question</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;应该如何使用南瓜书？&quot;</span>
+<span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qa_chain</span><span class="p">({</span><span class="s2">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">question</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">])</span>
+</code></pre></div>
 
-</code></pre>
 <p>结果：  </p>
-<pre><code class="language-text">问题一：  
+<div class="codehilite"><pre><span></span><code>问题一：  
 南瓜书是以西瓜书为前置知识进行解析和补充的，主要是对西瓜书中比较难理解的公式进行解析和推导细节的补充。南瓜书的最佳使用方法是以西瓜书为主线，遇到自己推导不出来或者看不懂的公式时再来查阅南瓜书。谢谢你的提问！  
 问题二：  
 应该以西瓜书为主线，遇到推导不出来或看不懂的公式时再查阅南瓜书。不建议初学者深究第1章和第2章的公式，等学得更熟练再回来。如果需要查阅南瓜书中没有的公式或发现错误，可以在GitHub上反馈。谢谢你的提问! &quot;
-</code></pre>
-<h6 id="2prompt-b">2.Prompt B:</h6>
-<pre><code class="language-commandline">template_v2 = &quot;&quot;&quot;使用以下上下文来回答最后的问题。如果你不知道答案，就说你不知道，不要试图编造答
-案。你应该使答案尽可能详细具体，但不要偏题。如果答案比较长，请酌情进行分段，以提高答案的阅读体验。
-{context}
-问题: {question}
-有用的回答:&quot;&quot;&quot;
+</code></pre></div>
 
-QA_CHAIN_PROMPT = PromptTemplate(input_variables=[&quot;context&quot;,&quot;question&quot;],
-                                 template=template_v2)
+<h6 id="2prompt-b">2.Prompt B:<a class="headerlink" href="#2prompt-b" title="Permanent link">&para;</a></h6>
+<div class="codehilite"><pre><span></span><code><span class="n">template_v2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;&quot;使用以下上下文来回答最后的问题。如果你不知道答案，就说你不知道，不要试图编造答</span>
+<span class="s2">案。你应该使答案尽可能详细具体，但不要偏题。如果答案比较长，请酌情进行分段，以提高答案的阅读体验。</span>
+<span class="s2">{context}</span>
+<span class="s2">问题: {question}</span>
+<span class="s2">有用的回答:&quot;&quot;&quot;</span>
 
-qa_chain = RetrievalQA.from_chain_type(llm,
-                                       retriever=vectordb.as_retriever(),
-                                       return_source_documents=True,
-                                       chain_type_kwargs={&quot;prompt&quot;:QA_CHAIN_PROMPT})
+<span class="n">QA_CHAIN_PROMPT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PromptTemplate</span><span class="p">(</span><span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;context&quot;</span><span class="p">,</span><span class="s2">&quot;question&quot;</span><span class="p">],</span>
+<span class="w">                                 </span><span class="n">template</span><span class="o">=</span><span class="n">template_v2</span><span class="p">)</span>
 
-print(&quot;问题一：&quot;)
-question = &quot;南瓜书和西瓜书有什么关系？&quot;
-result = qa_chain({&quot;query&quot;: question})
-print(result[&quot;result&quot;])
+<span class="n">qa_chain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RetrievalQA</span><span class="o">.</span><span class="n">from_chain_type</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span>
+<span class="w">                                       </span><span class="n">retriever</span><span class="o">=</span><span class="n">vectordb</span><span class="o">.</span><span class="n">as_retriever</span><span class="p">(),</span>
+<span class="w">                                       </span><span class="n">return_source_documents</span><span class="o">=</span><span class="n">True</span><span class="p">,</span>
+<span class="w">                                       </span><span class="n">chain_type_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;prompt&quot;</span><span class="p">:</span><span class="n">QA_CHAIN_PROMPT</span><span class="p">})</span>
 
-print(&quot;问题二：&quot;)
-question = &quot;应该如何使用南瓜书？&quot;
-result = qa_chain({&quot;query&quot;: question})
-print(result[&quot;result&quot;])
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;问题一：&quot;</span><span class="p">)</span>
+<span class="n">question</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;南瓜书和西瓜书有什么关系？&quot;</span>
+<span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qa_chain</span><span class="p">({</span><span class="s2">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">question</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">])</span>
 
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;问题二：&quot;</span><span class="p">)</span>
+<span class="n">question</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;应该如何使用南瓜书？&quot;</span>
+<span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qa_chain</span><span class="p">({</span><span class="s2">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">question</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">])</span>
+</code></pre></div>
+
 <p>结果:</p>
-<pre><code class="language-text">问题一：
+<div class="codehilite"><pre><span></span><code>问题一：
 南瓜书和西瓜书之间的关系是南瓜书是以西瓜书的内容为前置知识进行表述的。南瓜书的目的是对西瓜书中比较难理解的公式进行解析，并补充具体的推导细节，以帮助读者更好地理解和学习机器学习领域的知识。因此，最佳使用方法是以西瓜书为主线，遇到自己推导不出来或者看不懂的公式时再来查阅南瓜书。南瓜书的内容主要是为了帮助那些想深究公式推导细节的读者，提供更详细的解释和补充。
 问题二：
 应该将南瓜书作为西瓜书的补充，主要在遇到自己无法推导或理解的公式时进行查阅。对于初学机器学习的小白来说，建议先简单过一下南瓜书的第1章和第2章的公式，等学得更深入后再回来深究。每个公式的解析和推导都以本科数学基础的视角进行讲解，超纲的数学知识会在附录和参考文献中给出，供感兴趣的同学继续深入学习。如果在南瓜书中找不到想要查阅的公式，或者发现错误，可以在GitHub的Issues中提交反馈，通常会在24小时内得到回复。此外，南瓜书还提供配套视频教程和在线阅读地址，以及最新版PDF获取地址。最后，南瓜书的内容是基于知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可。
+</code></pre></div>
 
-</code></pre>
 <p>很好理解，假设评分规则是1-5分，A的一问题得分为4，二问题得分为2。B的问题一得分为3，二问题得分为4.这样平均得分B大于A，则判断B方案更好  </p>
-<h5 id="12">1.2多维评分：</h5>
+<h5 id="12">1.2多维评分：<a class="headerlink" href="#12" title="Permanent link">&para;</a></h5>
 <p>例如，要评价一个RAG系统：<br />
 ① 知识查找正确性。该维度需要查看系统从向量数据库查找相关知识片段的中间结果，评估系统查找到的知识片段是否能够对问题做出回答。该维度为0-1评估，即打分为0指查找到的知识片段不能做出回答，打分为1指查找到的知识片段可以做出回答。</p>
 <p>② 回答一致性。该维度评估系统的回答是否针对用户问题展开，是否有偏题、错误理解题意的情况，该维度量纲同样设计为0~1，0为完全偏题，1为完全切题，中间结果可以任取。</p>
@@ -1086,10 +1089,10 @@ print(result[&quot;result&quot;])
 <p>⑤ 逻辑性。该维度评估系统回答是否逻辑连贯，是否出现前后冲突、逻辑混乱的情况。该维度为0-1评估。</p>
 <p>⑥ 通顺性。该维度评估系统回答是否通顺、合乎语法，可以在0~1之间任意打分。</p>
 <p>⑦ 智能性。该维度评估系统回答是否拟人化、智能化，是否能充分让用户混淆人工回答与智能回答。该维度可以在0~1之间任意打分。</p>
-<h4 id="2">2.自动评估：</h4>
+<h4 id="2">2.自动评估：<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
 <p>大模型自动评估的难点在于客观题，没有标准的答案：</p>
-<h5 id="21">2.1构建客观题：</h5>
-<pre><code class="language-commandline">prompt_template = '''
+<h5 id="21">2.1构建客观题：<a class="headerlink" href="#21" title="Permanent link">&para;</a></h5>
+<div class="codehilite"><pre><span></span><code>prompt_template = &#39;&#39;&#39;
 请你做如下选择题：
 题目：南瓜书的作者是谁？
 选项：A 周志明 B 谢文睿 C 秦州 D 贾彬彬
@@ -1099,43 +1102,44 @@ print(result[&quot;result&quot;])
 ~~~
 请仅返回选择的选项
 如果你无法做出选择，请返回空
-'''
-</code></pre>
-<pre><code class="language-commandline">def multi_select_score_v2(true_answer : str, generate_answer : str) -&gt; float:
-    # true_anser : 正确答案，str 类型，例如 'BCD'
-    # generate_answer : 模型生成答案，str 类型
-    true_answers = list(true_answer)
-    '''为便于计算，我们假设每道题都只有 A B C D 四个选项'''
-    # 先找出错误答案集合
-    false_answers = [item for item in ['A', 'B', 'C', 'D'] if item not in true_answers]
-    # 如果生成答案出现了错误答案
-    for one_answer in false_answers:
-        if one_answer in generate_answer:
-            return -1
-    # 再判断是否全选了正确答案
-    if_correct = 0
-    for one_answer in true_answers:
-        if one_answer in generate_answer:
-            if_correct += 1
-            continue
-    if if_correct == 0:
-        # 不选
-        return 0
-    elif if_correct == len(true_answers):
-        # 全选
-        return 1
-    else:
-        # 漏选
-        return 0.5
+&#39;&#39;&#39;
+</code></pre></div>
 
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">def</span><span class="w"> </span><span class="n">multi_select_score_v2</span><span class="p">(</span><span class="n">true_answer</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="n">generate_answer</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">str</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">float</span><span class="o">:</span>
+<span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="n">true_anser</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="err">正确答案，</span><span class="n">str</span><span class="w"> </span><span class="err">类型，例如</span><span class="w"> </span><span class="s">&#39;BCD&#39;</span>
+<span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="n">generate_answer</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="err">模型生成答案，</span><span class="n">str</span><span class="w"> </span><span class="err">类型</span>
+<span class="w">    </span><span class="n">true_answers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list</span><span class="p">(</span><span class="n">true_answer</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&#39;&#39;&#39;为便于计算，我们假设每道题都只有 A B C D 四个选项&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="err">先找出错误答案集合</span>
+<span class="w">    </span><span class="n">false_answers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">item</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;A&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;B&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;C&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;D&#39;</span><span class="p">]</span><span class="w"> </span><span class="nf">if</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="kr">not</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="n">true_answers</span><span class="p">]</span>
+<span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="err">如果生成答案出现了错误答案</span>
+<span class="w">    </span><span class="n">for</span><span class="w"> </span><span class="n">one_answer</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="n">false_answers</span><span class="o">:</span>
+<span class="w">        </span><span class="nf">if</span><span class="w"> </span><span class="n">one_answer</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="n">generate_answer</span><span class="o">:</span>
+<span class="w">            </span><span class="kr">return</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="err">再判断是否全选了正确答案</span>
+<span class="w">    </span><span class="n">if_correct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">for</span><span class="w"> </span><span class="n">one_answer</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="n">true_answers</span><span class="o">:</span>
+<span class="w">        </span><span class="nf">if</span><span class="w"> </span><span class="n">one_answer</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="n">generate_answer</span><span class="o">:</span>
+<span class="w">            </span><span class="n">if_correct</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="n">continue</span>
+<span class="w">    </span><span class="nf">if</span><span class="w"> </span><span class="n">if_correct</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="o">:</span>
+<span class="w">        </span><span class="err">#</span><span class="w"> </span><span class="err">不选</span>
+<span class="w">        </span><span class="kr">return</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">elif</span><span class="w"> </span><span class="n">if_correct</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">true_answers</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="err">#</span><span class="w"> </span><span class="err">全选</span>
+<span class="w">        </span><span class="kr">return</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">else</span><span class="o">:</span>
+<span class="w">        </span><span class="err">#</span><span class="w"> </span><span class="err">漏选</span>
+<span class="w">        </span><span class="kr">return</span><span class="w"> </span><span class="mf">0.5</span>
+</code></pre></div>
+
 <p>通过客观题进行打分</p>
-<h4 id="22">2.2计算答案相似度</h4>
+<h4 id="22">2.2计算答案相似度<a class="headerlink" href="#22" title="Permanent link">&para;</a></h4>
 <p>该方案需要人工构建标准答案，再通过计算相似性打分（主要用于主观题）  </p>
-<h4 id="23">2.3使用大模型进行评估：</h4>
+<h4 id="23">2.3使用大模型进行评估：<a class="headerlink" href="#23" title="Permanent link">&para;</a></h4>
 <p>使用大模型进行评估，一个最基本的准则就是评价的大模型性能要好于基座大大模型<br />
 例如，我们可以构造如下的 Prompt Engineering，让大模型进行打分：   </p>
-<pre><code class="language-commandline">prompt = '''
+<div class="codehilite"><pre><span></span><code>prompt = &#39;&#39;&#39;
 你是一个模型回答评估员。
 接下来，我将给你一个问题、对应的知识片段以及模型根据知识片段对问题的回答。
 请你依次评估以下维度模型回答的表现，分别给出打分：
@@ -1169,9 +1173,9 @@ print(result[&quot;result&quot;])
 ~~~
 你应该返回给我一个可直接解析的 Python 字典，字典的键是如上维度，值是每一个维度对应的评估打分。
 不要输出任何其他内容。
-'''
+&#39;&#39;&#39;
+</code></pre></div>
 
-</code></pre>
 <p>大模型评价可以从多维度评价入手</p>
 
 
@@ -1225,6 +1229,8 @@ print(result[&quot;result&quot;])
     
     
       <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../../javascripts/extra.js"></script>
       
     
   </body>

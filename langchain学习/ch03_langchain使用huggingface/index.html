@@ -50,6 +50,8 @@
       
     
     
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -282,7 +284,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../从0构建GPT/从0构建GPT.md" class="md-tabs__link">
+        <a href="../../%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/" class="md-tabs__link">
           
   
   从0构建GPT
@@ -796,7 +798,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../从0构建GPT/从0构建GPT.md" class="md-nav__link">
+      <a href="../../%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -902,54 +904,56 @@
 
   <h1>ch03Huggingface</h1>
 
-<h2 id="_1">通过在线和本地调用两种方式分别来实现</h2>
-<h3 id="1googleflan-t5-xl">1.通过在线的方式调用google/flan-t5-xl进行问答（结合提示词）</h3>
-<pre><code class="language-commandline">from langchain_core.prompts import PromptTemplate
-from langchain_community.llms import HuggingFaceHub
-from langchain.chains import LLMChain
+<h2 id="_1">通过在线和本地调用两种方式分别来实现<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="1googleflan-t5-xl">1.通过在线的方式调用google/flan-t5-xl进行问答（结合提示词）<a class="headerlink" href="#1googleflan-t5-xl" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.prompts</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">PromptTemplate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_community.llms</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">HuggingFaceHub</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">LLMChain</span>
 
-template = &quot;&quot;&quot;Question: {question}
+<span class="n">template</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;&quot;Question: </span><span class="si">{question}</span>
 
-Answer: Let's think step by step.&quot;&quot;&quot;
+<span class="s2">Answer: Let&#39;s think step by step.&quot;&quot;&quot;</span>
 
-prompt = PromptTemplate(template=template, input_variables=[&quot;question&quot;])
-#定义链
-llm_chain = LLMChain(prompt=prompt, 
-                     llm=HuggingFaceHub(repo_id=&quot;google/flan-t5-xl&quot;, 
-                                        model_kwargs={&quot;temperature&quot;:0, 
-                                                      &quot;max_length&quot;:64}))
-question = &quot;小米集团的CEO是谁?&quot;
+<span class="n">prompt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PromptTemplate</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">,</span><span class="w"> </span><span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;question&quot;</span><span class="p">])</span>
+<span class="c1">#定义链</span>
+<span class="n">llm_chain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LLMChain</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                     </span><span class="n">llm</span><span class="o">=</span><span class="n">HuggingFaceHub</span><span class="p">(</span><span class="n">repo_id</span><span class="o">=</span><span class="s2">&quot;google/flan-t5-xl&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                                        </span><span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;temperature&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                                                      </span><span class="s2">&quot;max_length&quot;</span><span class="p">:</span><span class="mi">64</span><span class="p">}))</span>
+<span class="n">question</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;小米集团的CEO是谁?&quot;</span>
 
-print(llm_chain.invoke(question))
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">question</span><span class="p">))</span>
+</code></pre></div>
+
 <hr />
 <p><em>通过在线调用的方式可能会出现网络和token等各种莫名其妙的错误，所以一般我不怎么使用huggingface在线调用的方式</em></p>
-<h3 id="2lacal-model">2.使用lacal model</h3>
-<pre><code class="language-commandline">from langchain_community.llms import HuggingFacePipeline
-import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline, AutoModelForSeq2SeqLM
+<h3 id="2lacal-model">2.使用lacal model<a class="headerlink" href="#2lacal-model" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_community.llms</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">HuggingFacePipeline</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">AutoTokenizer</span><span class="p">,</span><span class="w"> </span><span class="n">AutoModelForCausalLM</span><span class="p">,</span><span class="w"> </span><span class="n">pipeline</span><span class="p">,</span><span class="w"> </span><span class="n">AutoModelForSeq2SeqLM</span>
 
-model_id = 'google/flan-t5-large'# go for a smaller model if you dont have the VRAM
-tokenizer = AutoTokenizer.from_pretrained(model_id)
-model = AutoModelForSeq2SeqLM.from_pretrained(model_id, load_in_8bit=True)#使用8bit量化
+<span class="n">model_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;google/flan-t5-large&#39;</span><span class="c1"># go for a smaller model if you dont have the VRAM</span>
+<span class="n">tokenizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_id</span><span class="p">)</span>
+<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AutoModelForSeq2SeqLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span><span class="w"> </span><span class="n">load_in_8bit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="c1">#使用8bit量化</span>
 
-pipe = pipeline(
-    &quot;text2text-generation&quot;,
-    model=model, 
-    tokenizer=tokenizer, 
-    max_length=100
-)
+<span class="n">pipe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pipeline</span><span class="p">(</span>
+<span class="w">    </span><span class="s2">&quot;text2text-generation&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span>
+<span class="p">)</span>
 
-local_llm = HuggingFacePipeline(pipeline=pipe)
+<span class="n">local_llm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HuggingFacePipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="o">=</span><span class="n">pipe</span><span class="p">)</span>
 
-llm_chain = LLMChain(prompt=prompt, 
-                     llm=local_llm
-                     )
+<span class="n">llm_chain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LLMChain</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                     </span><span class="n">llm</span><span class="o">=</span><span class="n">local_llm</span>
+<span class="w">                     </span><span class="p">)</span>
 
-question = &quot;谁是小米集团的CEO?&quot;
+<span class="n">question</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;谁是小米集团的CEO?&quot;</span>
 
-print(llm_chain.invoke(question))
-</code></pre>
+<span class="nb">print</span><span class="p">(</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">question</span><span class="p">))</span>
+</code></pre></div>
+
 <p>当然使用Hugingfacehub也一样得有Huggingface的key，我通常喜欢用os将key保存在环境中</p>
 
 
@@ -1003,6 +1007,8 @@ print(llm_chain.invoke(question))
     
     
       <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../../javascripts/extra.js"></script>
       
     
   </body>

@@ -50,6 +50,8 @@
       
     
     
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -282,7 +284,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../从0构建GPT/从0构建GPT.md" class="md-tabs__link">
+        <a href="../../%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/" class="md-tabs__link">
           
   
   从0构建GPT
@@ -805,7 +807,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../从0构建GPT/从0构建GPT.md" class="md-nav__link">
+      <a href="../../%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -911,32 +913,34 @@
 
   <h1>ch01提示词</h1>
 
-<h2 id="1">1.模型直接回答</h2>
-<h3 id="_1">导入相关模块</h3>
-<pre><code class="language-commandline">import os
-from langchain_openai import OpenAI
-from langchain_community.llms import HuggingFaceHub
-import os
-os.environ['OPENAI_API_KEY'] = 'sk-'
-</code></pre>
-<h3 id="_2">导入模型进行回答</h3>
-<pre><code class="language-commandline">llm = OpenAI(
+<h2 id="1">1.模型直接回答<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<h3 id="_1">导入相关模块<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">OpenAI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_community.llms</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">HuggingFaceHub</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;OPENAI_API_KEY&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;sk-&#39;</span>
+</code></pre></div>
+
+<h3 id="_2">导入模型进行回答<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>llm = OpenAI(
              temperature=0.9,
              max_tokens = 256)#temperature越小回答越严谨
 prompt = f&quot;你的爸爸是谁“
 response = llm(prompt)
-</code></pre>
-<h2 id="2prompt">2.用prompt模块回答</h2>
-<p>优点：更具专用性，更适用于一个专用的系统</p>
-<pre><code class="language-commandline">restaurant_template = &quot;&quot;&quot;
-你是一个数据科学家，请你将以下数据{data}按值从大到小排列
-&quot;&quot;&quot;
+</code></pre></div>
 
-prompt = PromptTemplate(
-    input_variables=[&quot;restaurant_desription&quot;],
-    template=restaurant_template,
-)
-</code></pre>
+<h2 id="2prompt">2.用prompt模块回答<a class="headerlink" href="#2prompt" title="Permanent link">&para;</a></h2>
+<p>优点：更具专用性，更适用于一个专用的系统</p>
+<div class="codehilite"><pre><span></span><code><span class="n">restaurant_template</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">你是一个数据科学家，请你将以下数据{data}按值从大到小排列</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">prompt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PromptTemplate</span><span class="p">(</span>
+<span class="w">    </span><span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;restaurant_desription&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="n">template</span><span class="o">=</span><span class="n">restaurant_template</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
 
 
 
@@ -989,6 +993,8 @@ prompt = PromptTemplate(
     
     
       <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../../javascripts/extra.js"></script>
       
     
   </body>

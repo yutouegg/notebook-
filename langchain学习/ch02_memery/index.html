@@ -50,6 +50,8 @@
       
     
     
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -282,7 +284,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../从0构建GPT/从0构建GPT.md" class="md-tabs__link">
+        <a href="../../%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/" class="md-tabs__link">
           
   
   从0构建GPT
@@ -805,7 +807,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../从0构建GPT/从0构建GPT.md" class="md-nav__link">
+      <a href="../../%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -911,14 +913,15 @@
 
   <h1>ch02记忆</h1>
 
-<h2 id="1conversationbuffermemory">1.ConversationBufferMemory:</h2>
-<h3 id="_1">导入相关模块：</h3>
-<pre><code class="language-commandline">    from langchain.chains.conversation.memory import ConversationBufferMemory
-    from langchain_openai import OpenAI
-    from langchain.chains import ConversationChain
-</code></pre>
-<h3 id="_2">进行问答：</h3>
-<pre><code class="language-commandline">    llm = OpenAI( 
+<h2 id="1conversationbuffermemory">1.ConversationBufferMemory:<a class="headerlink" href="#1conversationbuffermemory" title="Permanent link">&para;</a></h2>
+<h3 id="_1">导入相关模块：<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains.conversation.memory</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">ConversationBufferMemory</span>
+<span class="w">    </span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">OpenAI</span>
+<span class="w">    </span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">ConversationChain</span>
+</code></pre></div>
+
+<h3 id="_2">进行问答：<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>    llm = OpenAI( 
              temperature=0, 
              max_tokens = 256)
      memory = ConversationBufferMemory()
@@ -927,19 +930,21 @@
                   verbose=True, 
                    memory=memory)
      conversation.predict(input=&quot;你好&quot;)
-</code></pre>
+</code></pre></div>
+
 <hr />
 <p><em>ConversationBufferMemory会将用户与ai的问答和下一次的propmt一起传给大模型进行问答，这样的缺点就是很快会超出token</em>  </p>
 <hr />
-<h2 id="2conversationsummarymemory">2.ConversationSummaryMemory</h2>
-<pre><code class="language-commandline">    # memery替换成ConversationSummaryMemory
+<h2 id="2conversationsummarymemory">2.ConversationSummaryMemory<a class="headerlink" href="#2conversationsummarymemory" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>    # memery替换成ConversationSummaryMemory
     memory = ConversationSummaryMemory()
     conversation = ConversationChain(
                   llm=llm, 
                   verbose=True, 
                    memory=memory)
      conversation.predict(input=&quot;你好&quot;)
-</code></pre>
+</code></pre></div>
+
 <hr />
 <p>*顾名思义，ConversationSummaryMemory会将用户与ai的对话进行总结进行记忆再传给大模型</p>
 <hr />
@@ -998,6 +1003,8 @@
     
     
       <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../../javascripts/extra.js"></script>
       
     
   </body>
