@@ -1158,6 +1158,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#3fastapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.封装Fastapi供前端调用
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1236,8 +1245,129 @@ import json
     cv2.rectangle(mask, (100, 100), (300, 300), 255, -1)
 
     feature_params = dict(maxCorners=10000, qualityLevel=0.05, minDistance=5, blockSize=5)
-    lk_params = dict(winSize=(15, 15), maxLevel=2, criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))    
+    lk_params = dict(winSize=(15, 15), maxLevel=2, criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))  
+
+    #设置光流法和特征角点的参数
+    feature_params = dict(maxCorners=10000, qualityLevel=0.05, minDistance=5, blockSize=5)
+    lk_params = dict(winSize=(15, 15), maxLevel=2, criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
+
+    p0 = cv2.goodFeaturesToTrack(old_gray, mask=mask, **feature_params)
+    shakes = [0]
+
+    #开始循环处理每一帧
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+        #同样的转换成灰度图的预处理
+        frame_gray = cv2.GaussianBlur(cv2.equalizeHist(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)), (5, 5), 0)
+        #计算特征点的平均移动距离，并加入shake的数组，供后面阈值检测
+        if p0 is not None:
+            p1, st, err = cv2.calcOpticalFlowPyrLK(old_gray, frame_gray, p0, None, **lk_params)
+            if p1 is not None and len(p1) &gt; 0:
+                flow_mag = np.sqrt((p1[:, 0, 0] - p0[:, 0, 0]) ** 2 + (p1[:, 0, 1] - p0[:, 0, 1]) ** 2)
+                avg_flow_mag = np.mean(flow_mag)
+                shakes.append(avg_flow_mag)
+
+                if logger:
+                    #logger.info(f&quot;Frame {len(shakes)}: Flow Mag = {avg_flow_mag}&quot;)
+                    pass
+
+                #更新特征点
+                good_new = p1[st == 1]
+                old_gray = frame_gray.copy()
+                p0 = good_new.reshape(-1, 1, 2)
+            else:
+                shakes.append(0)  # 特征点跟踪失败，添加0
+                p0 = cv2.goodFeaturesToTrack(frame_gray, mask=mask, **feature_params)
+                old_gray = frame_gray.copy()
+        else:
+            shakes.append(0)  # 特征点检测失败，添加0
+            p0 = cv2.goodFeaturesToTrack(frame_gray, mask=mask, **feature_params)
+            old_gray = frame_gray.copy()
+
+    cap.release()
+
+    mean_flow_mag = np.mean(shakes)
+    std_flow_mag = np.std(shakes)
+    normalized_shakes = [(shake - mean_flow_mag) / std_flow_mag if std_flow_mag != 0 else 0 for shake in shakes]
+    shakes = normalized_shakes
+    print('Total frames:', total_frames)
+    print('Length of shakes array:', len(shakes))
+    print('Min of normalized_shakes:', np.min(normalized_shakes))
+    print('Max of normalized_shakes:', np.max(normalized_shakes))
+    print('Mean of normalized_shakes:', np.mean(normalized_shakes))
+    print('Std of normalized_shakes:', np.std(normalized_shakes))
+    # print(shakes)
+
+    print('Shaking frames idx:', list(np.where(np.array(shakes) &gt; 0)[0]))  # 输出抖动帧的索引
+
+    shake_second = 1
+    min_shake_frames = shake_second * fps
+    shake_threshold = threshold
+    print('min_shake_frames', min_shake_frames)
+
+    shake_segments = []
+    start_idx = -1
+    for idx, shake in enumerate(shakes):
+        # 如果这一帧是抖动帧数
+        if shake &gt; shake_threshold:
+            # 如果上一段已经结束了
+            if start_idx == -1:
+                start_idx = idx
+        # 这不是抖动帧 准备结束了
+        # 如果 当前正在记录 就结束
+        elif start_idx != -1:
+            # 长度条件过滤 只记录连续抖动帧长度超过min_shake_frames的帧数段
+            if (idx - start_idx) &gt; min_shake_frames:
+                shake_segments.append((start_idx, idx - 1))
+            # 结束完重新开始
+            start_idx = -1
+    # 收尾
+    if start_idx != -1 and (len(shakes) - start_idx) &gt; min_shake_frames:
+        shake_segments.append((start_idx, len(shakes) - 1))
+
+    feature_id = 101
+    result_list = [
+        {
+            'start_frame': shake_segment[0],
+            'end_frame': shake_segment[1],
+            'feature_id': feature_id,
+            'feature_description': '检测到连续抖动',
+            'algorithm': 'detect_shake'
+        }
+        for shake_segment in shake_segments
+    ]
+    return result_list
 </code></pre>
+<h4 id="3fastapi">3.封装Fastapi供前端调用</h4>
+<pre><code class="language-commandline">async def detect_shake( file_path: str, threshold: float = 0.0):
+    algorithm_name = &quot;shake_detection&quot;
+    #logger = setup_logger(&quot;video/&quot;+algorithm_name)
+
+    try:
+        decoded_path = base64.urlsafe_b64decode(file_path).decode('utf-8')
+        #logger.info(f&quot;Decoded file path: {decoded_path}&quot;)
+
+        if not os.path.exists(decoded_path):
+            # logger.error(f&quot;File not found: {decoded_path}&quot;)
+            raise HTTPException(status_code=400, detail=&quot;File not found&quot;)
+
+
+        result = process_video2(decoded_path, threshold=threshold)
+        #logger.info(&quot;Algorithm completed.&quot;)
+        # json_str = json.dumps(result, ensure_ascii=False, indent=4)
+        return {
+            'code': 200,
+            'msg': '抖动检测完成',
+            'data': result
+        }
+        # return json格式的数据
+    except Exception as e:
+        #logger.error(f&quot;Error: {str(e)}&quot;)
+        raise HTTPException(status_code=400, detail=str(e))
+</code></pre>
+<p>fastapi接受文件和阈值作为输入，输出json格式的返回结果，（抖动的起始和结束帧等信息）</p>
 
 
 
