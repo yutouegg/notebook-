@@ -50,8 +50,6 @@
       
     
     
-      <link rel="stylesheet" href="../../stylesheets/extra.css">
-    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -306,6 +304,24 @@
           
   
   报错
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Day1.md" class="md-tabs__link">
+          
+  
+  小米C++训练营
 
         </a>
       </li>
@@ -948,7 +964,75 @@
         
   
   <span class="md-ellipsis">
-    从0构建GPT
+    报错和解决
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    小米C++训练营
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            小米C++训练营
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Day1.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day1
   </span>
   
 
@@ -982,36 +1066,35 @@
 
   <h1>Lora微调</h1>
 
-<h2 id="1lora">1.什么是Lora<a class="headerlink" href="#1lora" title="Permanent link">&para;</a></h2>
-<h3 id="11">1.1全量微调：<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<h2 id="1lora">1.什么是Lora</h2>
+<h3 id="11">1.1全量微调：</h3>
 <p>顾名思义，就是把大模型所有的参数都进行微调。但是随着大模型的发展，动辄大几十几百B，全量微调的压力也越发的大。  </p>
-<h3 id="12">1.2替代方案：<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<h3 id="12">1.2替代方案：</h3>
 <ul>
 <li>Adapt Tuning：在训练中加入Adapt层，训练过程中固定其他参数只更新Adapt层的参数</li>
 <li>P-tuning：他在每个问题之前添加一个可学习的前缀，就可以用来专门训练一个专业技能。如想微调大模型来专门回答历史问题，而不希望修改模型的所有参数。就可以使用P-tuning，在每个问题之前添加一个可学习的前缀，如 “历史专家：”  </li>
 </ul>
-<h3 id="13lora">1.3Lora微调：<a class="headerlink" href="#13lora" title="Permanent link">&para;</a></h3>
+<h3 id="13lora">1.3Lora微调：</h3>
 <p>LoRA 的核心思想是通过训练低秩矩阵捕捉任务特定的变化，而保持预训练模型的大部分参数不变。低秩矩阵表示信息的压缩，只需少量参数就能近似描述数据的主要特征。
 假设你有一幅高分辨率的图片（预训练模型），但只想调整颜色（适应特定任务）。你不需要修改每个像素（全参数微调），而是可以应用一个简单的滤镜（低秩矩阵）来达到效果。这种滤镜可以用很少的参数描述，却能显著改变图片的整体色调。这就类似于 LoRA 的低秩适应方法。</p>
-<h2 id="2lorabliblipeft">2.Lora微调blibli大模型(PEFT)：<a class="headerlink" href="#2lorabliblipeft" title="Permanent link">&para;</a></h2>
-<h3 id="21">2.1模型下载：<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">modelscope</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">snapshot_download</span><span class="p">,</span><span class="w"> </span><span class="n">AutoModel</span><span class="p">,</span><span class="w"> </span><span class="n">AutoTokenizer</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<h2 id="2lorabliblipeft">2.Lora微调blibli大模型(PEFT)：</h2>
+<h3 id="21">2.1模型下载：</h3>
+<pre><code class="language-commandline">import torch
+from modelscope import snapshot_download, AutoModel, AutoTokenizer
+import os
 
-<span class="n">model_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">snapshot_download</span><span class="p">(</span><span class="s1">&#39;IndexTeam/Index-1.9B-Chat&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">cache_dir</span><span class="o">=</span><span class="s1">&#39;model_path&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">revision</span><span class="o">=</span><span class="s1">&#39;master&#39;</span><span class="p">)</span><span class="w"> </span><span class="c1">#版本选master是因为一般master是稳定的版本</span>
-</code></pre></div>
-
-<h3 id="22">2.2指令集的构建<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+model_dir = snapshot_download('IndexTeam/Index-1.9B-Chat', cache_dir='model_path', revision='master') #版本选master是因为一般master是稳定的版本
+</code></pre>
+<h3 id="22">2.2指令集的构建</h3>
 <p>训练集选择从网上找到一个关于甄嬛语气的训练集，内容如下：  </p>
-<p><img alt="训练集" src="../../image/微调/01.png" /></p>
+<p><img alt="训练集" src="../../image/weitiao/01.png" /></p>
 <p>其中，instruction 是用户指令，告知模型其需要完成的任务；input 是用户输入，是完成用户指令所必须的输入内容；output 是模型应该给出的输出。  </p>
 <p>数据格式化代码如下：</p>
-<div class="codehilite"><pre><span></span><code>def process_func(example):
+<pre><code class="language-commandline">def process_func(example):
     MAX_LENGTH = 384    # 分词器会将一个中文字切分为多个token，因此需要放开一些最大长度，保证数据的完整性
     input_ids, attention_mask, labels = [], [], []
-    instruction = tokenizer(f&quot;&lt;unk&gt;system现在你要扮演皇帝身边的女人--甄嬛reserved_0user{example[&#39;instruction&#39;] + example[&#39;input&#39;]}reserved_1assistant&quot;, add_special_tokens=False)  # add_special_tokens 不在开头加 special_tokens
-    response = tokenizer(f&quot;{example[&#39;output&#39;]}&quot;, add_special_tokens=False)
+    instruction = tokenizer(f&quot;&lt;unk&gt;system现在你要扮演皇帝身边的女人--甄嬛reserved_0user{example['instruction'] + example['input']}reserved_1assistant&quot;, add_special_tokens=False)  # add_special_tokens 不在开头加 special_tokens
+    response = tokenizer(f&quot;{example['output']}&quot;, add_special_tokens=False)
     input_ids = instruction[&quot;input_ids&quot;] + response[&quot;input_ids&quot;] + [tokenizer.pad_token_id]
     attention_mask = instruction[&quot;attention_mask&quot;] + response[&quot;attention_mask&quot;] + [1]  # 因为eos token也是要关注的所以 补充为1
     labels = [-100] * len(instruction[&quot;input_ids&quot;]) + response[&quot;input_ids&quot;] + [tokenizer.pad_token_id]  
@@ -1024,32 +1107,29 @@
         &quot;attention_mask&quot;: attention_mask,
         &quot;labels&quot;: labels
     }
-</code></pre></div>
-
+</code></pre>
 <p>这个训练集的构建也有点像P—tuning，在训练中加了前缀“现在你要扮演皇帝身边的女人--甄嬛”
 process_func函数返回一个字典包含 input_ids、attention_mask 和 labels三个部分：<br />
 * input_ids：将输入的文本编码传给模型
 * attention_mask：表示模型需要关注哪些地方，一般填充的不太需要关注
 * 回答的文本编码</p>
-<h3 id="23tokenizer">2.3加载模型和Tokenizer<a class="headerlink" href="#23tokenizer" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="nx">tokenizer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">AutoTokenizer</span><span class="p">.</span><span class="nx">from_pretrained</span><span class="p">(</span><span class="err">&#39;</span><span class="o">/</span><span class="nx">root</span><span class="o">/</span><span class="nx">autodl</span><span class="o">-</span><span class="nx">tmp</span><span class="o">/</span><span class="nx">Tsumugii24</span><span class="o">/</span><span class="nx">Index</span><span class="o">-</span><span class="m m-Double">1.9</span><span class="nx">B</span><span class="o">-</span><span class="nx">Chat</span><span class="o">/</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">use_fast</span><span class="p">=</span><span class="nx">False</span><span class="p">,</span><span class="w"> </span><span class="nx">trust_remote_code</span><span class="p">=</span><span class="nx">True</span><span class="p">)</span>
+<h3 id="23tokenizer">2.3加载模型和Tokenizer</h3>
+<pre><code class="language-commandline">tokenizer = AutoTokenizer.from_pretrained('/root/autodl-tmp/Tsumugii24/Index-1.9B-Chat/', use_fast=False, trust_remote_code=True)
 
-<span class="nx">model</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">AutoModelForCausalLM</span><span class="p">.</span><span class="nx">from_pretrained</span><span class="p">(</span><span class="err">&#39;</span><span class="o">/</span><span class="nx">root</span><span class="o">/</span><span class="nx">autodl</span><span class="o">-</span><span class="nx">tmp</span><span class="o">/</span><span class="nx">Tsumugii24</span><span class="o">/</span><span class="nx">Index</span><span class="o">-</span><span class="m m-Double">1.9</span><span class="nx">B</span><span class="o">-</span><span class="nx">Chat</span><span class="o">/</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">device_map</span><span class="p">=</span><span class="s">&quot;auto&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">trust_remote_code</span><span class="p">=</span><span class="nx">True</span><span class="p">,</span><span class="w"> </span><span class="nx">torch_dtype</span><span class="p">=</span><span class="nx">torch</span><span class="p">.</span><span class="nx">bfloat16</span><span class="p">)</span>
-</code></pre></div>
-
-<h3 id="24loraconfig">2.4定义LoraConfig:<a class="headerlink" href="#24loraconfig" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="nx">config</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">LoraConfig</span><span class="p">(</span>
-<span class="w">    </span><span class="nx">task_type</span><span class="p">=</span><span class="nx">TaskType</span><span class="p">.</span><span class="nx">CAUSAL_LM</span><span class="p">,</span><span class="w"> </span>
-<span class="w">    </span><span class="nx">target_modules</span><span class="p">=[</span><span class="s">&quot;q_proj&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;k_proj&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v_proj&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;o_proj&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;gate_proj&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;up_proj&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;down_proj&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nx">inference_mode</span><span class="p">=</span><span class="nx">False</span><span class="p">,</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="nx">训练模式</span>
-<span class="w">    </span><span class="nx">r</span><span class="p">=</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="nx">决定了低秩矩阵的维度</span>
-<span class="w">    </span><span class="nx">lora_alpha</span><span class="p">=</span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="nx">缩放因子</span>
-<span class="w">    </span><span class="nx">lora_dropout</span><span class="p">=</span><span class="m m-Double">0.1</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="nx">Dropout</span><span class="w"> </span><span class="nx">比例</span>
-<span class="p">)</span>
-</code></pre></div>
-
-<h3 id="25train">2.5定义Train的参数并训练<a class="headerlink" href="#25train" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>args = TrainingArguments(
+model = AutoModelForCausalLM.from_pretrained('/root/autodl-tmp/Tsumugii24/Index-1.9B-Chat/', device_map=&quot;auto&quot;, trust_remote_code=True, torch_dtype=torch.bfloat16)
+</code></pre>
+<h3 id="24loraconfig">2.4定义LoraConfig:</h3>
+<pre><code class="language-commandline">config = LoraConfig(
+    task_type=TaskType.CAUSAL_LM, 
+    target_modules=[&quot;q_proj&quot;, &quot;k_proj&quot;, &quot;v_proj&quot;, &quot;o_proj&quot;, &quot;gate_proj&quot;, &quot;up_proj&quot;, &quot;down_proj&quot;],
+    inference_mode=False, # 训练模式
+    r=8, # 决定了低秩矩阵的维度
+    lora_alpha=32, # 缩放因子
+    lora_dropout=0.1 # Dropout 比例
+)
+</code></pre>
+<h3 id="25train">2.5定义Train的参数并训练</h3>
+<pre><code class="language-commandline">args = TrainingArguments(
     output_dir=&quot;./output/Index-1.9B-Chat-lora&quot;,
     per_device_train_batch_size=4,
     gradient_accumulation_steps=4,
@@ -1069,50 +1149,49 @@ trainer = Trainer(
 )
 
 trainer.train()
-</code></pre></div>
 
+</code></pre>
 <p>后等待训练就好了...  </p>
-<h3 id="26lora">2.6加载lora微调<a class="headerlink" href="#26lora" title="Permanent link">&para;</a></h3>
+<h3 id="26lora">2.6加载lora微调</h3>
 <p>微调完成后当然就得调用啦:</p>
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">AutoModelForCausalLM</span><span class="p">,</span><span class="w"> </span><span class="n">AutoTokenizer</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">peft</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">PeftModel</span>
+<pre><code class="language-commandline">from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
+from peft import PeftModel
 
-<span class="n">model_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;model_path&#39;</span>
-<span class="n">lora_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;lora_path&#39;</span>
+model_path = 'model_path'
+lora_path = 'lora_path'
 
-<span class="c1"># 加载tokenizer</span>
-<span class="n">tokenizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
+# 加载tokenizer
+tokenizer = AutoTokenizer.from_pretrained(model_path)
 
-<span class="c1"># 加载模型</span>
-<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AutoModelForCausalLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span><span class="w"> </span><span class="n">device_map</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span><span class="n">torch_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bfloat16</span><span class="p">)</span>
+# 加载模型
+model = AutoModelForCausalLM.from_pretrained(model_path, device_map=&quot;auto&quot;,torch_dtype=torch.bfloat16)
 
-<span class="c1"># 加载lora权重</span>
-<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PeftModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">model_id</span><span class="o">=</span><span class="n">lora_path</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+# 加载lora权重
+model = PeftModel.from_pretrained(model, model_id=lora_path, config=config)
 
-<span class="n">prompt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;你是谁？&quot;</span>
-<span class="n">messages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;system&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;现在你要扮演皇帝身边的女人--甄嬛&quot;</span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">prompt</span><span class="p">}</span>
-<span class="p">]</span>
+prompt = &quot;你是谁？&quot;
+messages = [
+    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;现在你要扮演皇帝身边的女人--甄嬛&quot;},
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}
+]
 
-<span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tokenizer</span><span class="o">.</span><span class="n">apply_chat_template</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span><span class="w"> </span><span class="n">tokenize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="w"> </span><span class="n">add_generation_prompt</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
 
-<span class="n">model_inputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tokenizer</span><span class="p">([</span><span class="n">text</span><span class="p">],</span><span class="w"> </span><span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+model_inputs = tokenizer([text], return_tensors=&quot;pt&quot;).to('cuda')
 
-<span class="n">generated_ids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
-<span class="w">    </span><span class="n">model_inputs</span><span class="o">.</span><span class="n">input_ids</span><span class="p">,</span>
-<span class="w">    </span><span class="n">max_new_tokens</span><span class="o">=</span><span class="mi">512</span>
-<span class="p">)</span>
-<span class="n">generated_ids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="n">output_ids</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">input_ids</span><span class="p">):]</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">input_ids</span><span class="p">,</span><span class="w"> </span><span class="n">output_ids</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">zip</span><span class="p">(</span><span class="n">model_inputs</span><span class="o">.</span><span class="n">input_ids</span><span class="p">,</span><span class="w"> </span><span class="n">generated_ids</span><span class="p">)</span>
-<span class="p">]</span>
+generated_ids = model.generate(
+    model_inputs.input_ids,
+    max_new_tokens=512
+)
+generated_ids = [
+    output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
+]
 
-<span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tokenizer</span><span class="o">.</span><span class="n">batch_decode</span><span class="p">(</span><span class="n">generated_ids</span><span class="p">,</span><span class="w"> </span><span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
 
-<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
-</code></pre></div>
-
+print(response)
+</code></pre>
 <p>这就完成了基础的微调了，1.9B的模型训练集也不大，我在3090上训练不到半个小时就完成了一次微调。
 后续我习惯是使用llama.cpp将模型量化传到ollama进行调用</p>
 
@@ -1167,8 +1246,6 @@ trainer.train()
     
     
       <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
-      
-        <script src="../../javascripts/extra.js"></script>
       
     
   </body>

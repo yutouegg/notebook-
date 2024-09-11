@@ -50,8 +50,6 @@
       
     
     
-      <link rel="stylesheet" href="../../stylesheets/extra.css">
-    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -306,6 +304,24 @@
           
   
   报错
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Day1.md" class="md-tabs__link">
+          
+  
+  小米C++训练营
 
         </a>
       </li>
@@ -912,7 +928,75 @@
         
   
   <span class="md-ellipsis">
-    从0构建GPT
+    报错和解决
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    小米C++训练营
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            小米C++训练营
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Day1.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day1
   </span>
   
 
@@ -947,137 +1031,129 @@
   <h1>从0构建GPT</h1>
 
 <p><a href="https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt">训练集</a>在这，采用了莎士比亚的作品子集当作训练集，共111万字符  </p>
-<h2 id="1">1.数据<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
-<h3 id="11">1.1.数据集观察：<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>chars = sorted(list(set(text)))
+<h2 id="1">1.数据</h2>
+<h3 id="11">1.1.数据集观察：</h3>
+<pre><code class="language-commandline">chars = sorted(list(set(text)))
 vocab_size = len(chars)
-print(&#39;&#39;.join(chars))
+print(''.join(chars))
 print(vocab_size)
-</code></pre></div>
-
+</code></pre>
 <p>作用是打印词表的大小，运行结果如下：<br />
  !$&amp;',-.3:;?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz<br />
 65  </p>
-<h3 id="12">1.2.构建编码器与解码器：<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="n">stoi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{</span><span class="w"> </span><span class="nl">ch</span><span class="p">:</span><span class="n">i</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="n">ch</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">enumerate</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span><span class="w"> </span><span class="err">}</span>
-<span class="n">itos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{</span><span class="w"> </span><span class="nl">i</span><span class="p">:</span><span class="n">ch</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="n">ch</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">enumerate</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span><span class="w"> </span><span class="err">}</span>
-<span class="n">encode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="nl">s</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">stoi[c</span><span class="o">]</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">s</span><span class="err">]</span><span class="w"> </span>
-<span class="n">decode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="nl">l</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">.</span><span class="k">join</span><span class="p">(</span><span class="o">[</span><span class="n">itos[i</span><span class="o">]</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">l</span><span class="err">]</span><span class="p">)</span><span class="w"> </span>
+<h3 id="12">1.2.构建编码器与解码器：</h3>
+<pre><code class="language-commandline">stoi = { ch:i for i,ch in enumerate(chars) }
+itos = { i:ch for i,ch in enumerate(chars) }
+encode = lambda s: [stoi[c] for c in s] 
+decode = lambda l: ''.join([itos[i] for i in l]) 
 
-<span class="k">print</span><span class="p">(</span><span class="n">encode</span><span class="p">(</span><span class="ss">&quot;hi I&#39;am here&quot;</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="n">decode</span><span class="p">(</span><span class="o">[</span><span class="n">46, 47, 1, 21, 5, 39, 51, 1, 46, 43, 56, 43</span><span class="o">]</span><span class="p">))</span>
-</code></pre></div>
-
+print(encode(&quot;hi I'am here&quot;))
+print(decode([46, 47, 1, 21, 5, 39, 51, 1, 46, 43, 56, 43]))
+</code></pre>
 <p>运行结果：<br />
 [46, 47, 1, 21, 5, 39, 51, 1, 46, 43, 56, 43]<br />
 hi I'am here<br />
 这里采用的是最简单的按照字符位置编码，当然个人觉得也可以再加特殊字符以表示句子的开始结束  </p>
-<h3 id="13">1.3.训练集的切分<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span>
-<span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">encode</span><span class="p">(</span><span class="n">text</span><span class="p">),</span><span class="w"> </span><span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="mi">1000</span><span class="p">])</span><span class="w"> </span>
-</code></pre></div>
-
+<h3 id="13">1.3.训练集的切分</h3>
+<pre><code class="language-commandline">import torch 
+data = torch.tensor(encode(text), dtype=torch.long)
+print(data.shape, data.dtype)
+print(data[:1000]) 
+</code></pre>
 <p>这块代码很明显就是将文本转变成tensor格式的数据以便训练  </p>
-<div class="codehilite"><pre><span></span><code>n = int(0.9*len(data)) 
+<pre><code class="language-commandline">n = int(0.9*len(data)) 
 train_data = data[:n]
 val_data = data[n:]
-</code></pre></div>
-
+</code></pre>
 <p>切分训练集，前百分之九十为训练集  </p>
-<div class="codehilite"><pre><span></span><code><span class="n">block_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span>
-<span class="n">train_data</span><span class="o">[</span><span class="n">:block_size+1</span><span class="o">]</span>
-<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train_data</span><span class="o">[</span><span class="n">:block_size</span><span class="o">]</span>
-<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train_data</span><span class="o">[</span><span class="n">1:block_size+1</span><span class="o">]</span>
-<span class="k">for</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="k">range</span><span class="p">(</span><span class="n">block_size</span><span class="p">)</span><span class="err">:</span>
-<span class="w">    </span><span class="n">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">[</span><span class="n">:t+1</span><span class="o">]</span>
-<span class="w">    </span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="o">[</span><span class="n">t</span><span class="o">]</span>
-<span class="w">    </span><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="ss">&quot;when input is {context} the target: {target}&quot;</span><span class="p">)</span>
-</code></pre></div>
-
+<pre><code class="language-commandline">block_size = 8
+train_data[:block_size+1]
+x = train_data[:block_size]
+y = train_data[1:block_size+1]
+for t in range(block_size):
+    context = x[:t+1]
+    target = y[t]
+    print(f&quot;when input is {context} the target: {target}&quot;)
+</code></pre>
 <p>训练块大小定义成8，意思是1推2，1和2推3，以此类推。训练块和当前大模型所说的上下文长度是一回事。个人更喜欢理解为滑动窗口训练  </p>
-<div class="codehilite"><pre><span></span><code>def get_batch(split):
+<pre><code class="language-commandline">def get_batch(split):
     # generate a small batch of data of inputs x and targets y
-    data = train_data if split == &#39;train&#39; else val_data
+    data = train_data if split == 'train' else val_data
     ix = torch.randint(len(data) - block_size, (batch_size,))
     x = torch.stack([data[i:i+block_size] for i in ix])
     y = torch.stack([data[i+1:i+block_size+1] for i in ix])
     return x, y
-</code></pre></div>
-
+</code></pre>
 <p>定义了一个随机选取（batch，block）大小的数据  </p>
-<h2 id="2">2.模型构建<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
-<h3 id="21">2.1最简单的二元模型，损失，生成的构建：<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">F</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">1337</span><span class="p">)</span>
+<h2 id="2">2.模型构建</h2>
+<h3 id="21">2.1最简单的二元模型，损失，生成的构建：</h3>
+<pre><code class="language-commandline">import torch
+import torch.nn as nn
+from torch.nn import functional as F
+torch.manual_seed(1337)
 
-<span class="k">class</span><span class="w"> </span><span class="nc">BigramLanguageModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+class BigramLanguageModel(nn.Module):
 
-<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">vocab_size</span><span class="p">):</span>
-<span class="w">        </span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-<span class="w">        </span><span class="bp">self</span><span class="o">.</span><span class="n">token_embedding_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span><span class="w"> </span><span class="n">vocab_size</span><span class="p">)</span>
+    def __init__(self, vocab_size):
+        super().__init__()
+        self.token_embedding_table = nn.Embedding(vocab_size, vocab_size)
 
-<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="n">targets</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="c1">#idx和target就可以理解是上面的xb和yb，二者的行状都是（B，T）</span>
-<span class="w">        </span><span class="n">logits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">token_embedding_table</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="c1"># (B,T,C)</span>
+    def forward(self, idx, targets=None):
+        #idx和target就可以理解是上面的xb和yb，二者的行状都是（B，T）
+        logits = self.token_embedding_table(idx) # (B,T,C)
 
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">targets</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="kc">None</span><span class="p">:</span>
-<span class="w">            </span><span class="n">loss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">None</span>
-<span class="w">        </span><span class="k">else</span><span class="p">:</span>
-<span class="w">            </span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">logits</span><span class="o">.</span><span class="n">shape</span>
-<span class="w">            </span><span class="n">logits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">logits</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="o">*</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="p">)</span>
-<span class="w">            </span><span class="n">targets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">targets</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="o">*</span><span class="n">T</span><span class="p">)</span>
-<span class="w">            </span><span class="n">loss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span><span class="w"> </span><span class="n">targets</span><span class="p">)</span>
+        if targets is None:
+            loss = None
+        else:
+            B, T, C = logits.shape
+            logits = logits.view(B*T, C)
+            targets = targets.view(B*T)
+            loss = F.cross_entropy(logits, targets)
 
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">logits</span><span class="p">,</span><span class="w"> </span><span class="n">loss</span>
+        return logits, loss
 
-<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="n">max_new_tokens</span><span class="p">):</span>
-<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="n">max_new_tokens</span><span class="p">):</span>
-<span class="w">            </span><span class="n">logits</span><span class="p">,</span><span class="w"> </span><span class="n">loss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
-<span class="w">            </span><span class="c1"># 只关注最后一个</span>
-<span class="w">            </span><span class="n">logits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">logits</span><span class="p">[:,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">:]</span><span class="w"> </span><span class="c1"># becomes (B, C)</span>
-<span class="w">            </span><span class="c1"># 通过softmax</span>
-<span class="w">            </span><span class="n">probs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c1"># (B, C)</span>
+    def generate(self, idx, max_new_tokens):
+        for _ in range(max_new_tokens):
+            logits, loss = self(idx)
+            # 只关注最后一个
+            logits = logits[:, -1, :] # becomes (B, C)
+            # 通过softmax
+            probs = F.softmax(logits, dim=-1) # (B, C)
 
-<span class="w">            </span><span class="n">idx_next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">torch</span><span class="o">.</span><span class="n">multinomial</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span><span class="w"> </span><span class="n">num_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c1"># (B, 1)</span>
+            idx_next = torch.multinomial(probs, num_samples=1) # (B, 1)
 
-<span class="w">            </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="n">idx_next</span><span class="p">),</span><span class="w"> </span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c1"># (B, T+1)</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">idx</span>
+            idx = torch.cat((idx, idx_next), dim=1) # (B, T+1)
+        return idx
 
-<span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BigramLanguageModel</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">)</span>
-<span class="n">logits</span><span class="p">,</span><span class="w"> </span><span class="n">loss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">(</span><span class="n">xb</span><span class="p">,</span><span class="w"> </span><span class="n">yb</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">logits</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+m = BigramLanguageModel(vocab_size)
+logits, loss = m(xb, yb)
+print(logits.shape)
+print(loss)
 
-<span class="nb">print</span><span class="p">(</span><span class="n">decode</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">),</span><span class="w"> </span><span class="n">max_new_tokens</span><span class="o">=</span><span class="mi">100</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
-</code></pre></div>
-
+print(decode(m.generate(idx = torch.zeros((1, 1), dtype=torch.long), max_new_tokens=100)[0].tolist()))
+</code></pre>
 <p>从简单的二元模型开始理解，forward函数就是将idx通过self.token_embedding_table函数映射到了词表维度上，然后根据cross_entropy（）对传入参数的行状要求传入数据返回损失函数
 generate（）函数就是刚刚理解的滑动窗口将输入的idx依次从词表概率中通过torch.multinomial函数抽出下一个单词
 生成结果很随机，这次的运行结果是：Sr?qP-QWktXoL&amp;jLDJgOLVz'RIoDqHdhsV&amp;vLLxatjscMpwLERSPyao.qfzs$Ys$zF-w,;eEkzxjgCKFChs!iWW.ObzDnxA Ms$3<br />
 因为maxtoken是100，使用生成了一百个乱七八糟的东西。<br />
 结果很差，当然我们也可以训练一下模型:</p>
-<div class="codehilite"><pre><span></span><code><span class="nx">optimizer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">torch</span><span class="p">.</span><span class="nx">optim</span><span class="p">.</span><span class="nx">AdamW</span><span class="p">(</span><span class="nx">m</span><span class="p">.</span><span class="nx">parameters</span><span class="p">(),</span><span class="w"> </span><span class="nx">lr</span><span class="p">=</span><span class="mi">1</span><span class="nx">e</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="nx">定义优化器</span>
-<span class="nx">batch_size</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">32</span>
-<span class="k">for</span><span class="w"> </span><span class="nx">steps</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="nx">epoch是一百</span>
+<pre><code>optimizer = torch.optim.AdamW(m.parameters(), lr=1e-3) #定义优化器
+batch_size = 32
+for steps in range(100): # epoch是一百
 
-<span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="nx">sample</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">batch</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">data</span>
-<span class="w">    </span><span class="nx">xb</span><span class="p">,</span><span class="w"> </span><span class="nx">yb</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_batch</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">train</span><span class="err">&#39;</span><span class="p">)</span>
+    # sample a batch of data
+    xb, yb = get_batch('train')
 
-<span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="nx">evaluate</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">loss</span>
-<span class="w">    </span><span class="nx">logits</span><span class="p">,</span><span class="w"> </span><span class="nx">loss</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">m</span><span class="p">(</span><span class="nx">xb</span><span class="p">,</span><span class="w"> </span><span class="nx">yb</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">optimizer</span><span class="p">.</span><span class="nx">zero_grad</span><span class="p">(</span><span class="nx">set_to_none</span><span class="p">=</span><span class="nx">True</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">loss</span><span class="p">.</span><span class="nx">backward</span><span class="p">()</span>
-<span class="w">    </span><span class="nx">optimizer</span><span class="p">.</span><span class="nx">step</span><span class="p">()</span>
+    # evaluate the loss
+    logits, loss = m(xb, yb)
+    optimizer.zero_grad(set_to_none=True)
+    loss.backward()
+    optimizer.step()
 
-<span class="nx">print</span><span class="p">(</span><span class="nx">loss</span><span class="p">.</span><span class="nx">item</span><span class="p">())</span>
+print(loss.item())
 
-<span class="nx">print</span><span class="p">(</span><span class="nx">decode</span><span class="p">(</span><span class="nx">m</span><span class="p">.</span><span class="nx">generate</span><span class="p">(</span><span class="nx">idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">torch</span><span class="p">.</span><span class="nx">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="nx">dtype</span><span class="p">=</span><span class="nx">torch</span><span class="p">.</span><span class="nx">long</span><span class="p">),</span><span class="w"> </span><span class="nx">max_new_tokens</span><span class="p">=</span><span class="mi">500</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">tolist</span><span class="p">()))</span><span class="err">#</span><span class="nx">再看一下结果</span>
-</code></pre></div>
-
+print(decode(m.generate(idx = torch.zeros((1, 1), dtype=torch.long), max_new_tokens=500)[0].tolist()))#再看一下结果
+</code></pre>
 <p>当然这只是一个将最后一个字符推理通过softmax函数推测下一个，效果肯定一般。运行结果如下：<br />
 xiKi-RJ:CgqVuUa!U?qMH.uk!sCuMXvv!CJFfx;LgRyJknOEti.?I&amp;-gPlLyulId?XlaInQ'q,lT$<br />
 3Q&amp;sGlvHQ?mqSq-eON<br />
@@ -1105,48 +1181,45 @@ PlorseelapinghiybHen yof GLUCEN t l-t E:<br />
 I hisgothers je are!-e!<br />
 QLYotouciullle'z  <br />
 就可以看到起码像样了  </p>
-<h3 id="22">2.2构建特征<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<h3 id="22">2.2构建特征</h3>
 <p><em>way1：</em></p>
-<div class="codehilite"><pre><span></span><code><span class="nv">xbow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">torch</span>.<span class="nv">zeros</span><span class="ss">((</span><span class="nv">B</span>,<span class="nv">T</span>,<span class="nv">C</span><span class="ss">))</span>
-<span class="k">for</span><span class="w"> </span><span class="nv">b</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">range</span><span class="ss">(</span><span class="nv">B</span><span class="ss">)</span>:
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nv">t</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">range</span><span class="ss">(</span><span class="nv">T</span><span class="ss">)</span>:
-<span class="w">        </span><span class="nv">xprev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">x</span>[<span class="nv">b</span>,:<span class="nv">t</span><span class="o">+</span><span class="mi">1</span>]<span class="w"> </span>#<span class="w"> </span><span class="ss">(</span><span class="nv">t</span>,<span class="nv">C</span><span class="ss">)</span>
-<span class="w">        </span><span class="nv">xbow</span>[<span class="nv">b</span>,<span class="nv">t</span>]<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">torch</span>.<span class="nv">mean</span><span class="ss">(</span><span class="nv">xprev</span>,<span class="w"> </span><span class="mi">0</span><span class="ss">)</span>
-</code></pre></div>
-
+<pre><code class="language-commandline">xbow = torch.zeros((B,T,C))
+for b in range(B):
+    for t in range(T):
+        xprev = x[b,:t+1] # (t,C)
+        xbow[b,t] = torch.mean(xprev, 0)
+</code></pre>
 <p>显而易见就是用之前量的平均值来实现对之前特征的提取  </p>
-<div class="codehilite"><pre><span></span><code><span class="n">wei</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">torch</span><span class="p">.</span><span class="n">tril</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">))</span>
-<span class="n">wei</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wei</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">wei</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">keepdim</span><span class="o">=</span><span class="kr">True</span><span class="p">)</span>
-<span class="n">xbow2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wei</span><span class="w"> </span><span class="err">@</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">)</span><span class="w"> </span><span class="err">@</span><span class="w"> </span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="p">)</span><span class="w"> </span><span class="o">----&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="p">)</span>
-<span class="n">torch</span><span class="p">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">xbow</span><span class="p">,</span><span class="w"> </span><span class="n">xbow2</span><span class="p">)</span>
-</code></pre></div>
-
+<pre><code class="language-commandline">wei = torch.tril(torch.ones(T, T))
+wei = wei / wei.sum(1, keepdim=True)
+xbow2 = wei @ x # (B, T, T) @ (B, T, C) ----&gt; (B, T, C)
+torch.allclose(xbow, xbow2)
+</code></pre>
 <p>这是通过向量计算快速得到的平均值特征</p>
 <p><em>way2(重头戏)：</em></p>
-<div class="codehilite"><pre><span></span><code><span class="n">torch</span><span class="p">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">1337</span><span class="p">)</span>
-<span class="n">B</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">32</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">batch</span><span class="p">,</span><span class="w"> </span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="n">channels</span>
-<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">C</span><span class="p">)</span>
+<pre><code class="language-commandline">torch.manual_seed(1337)
+B,T,C = 4,8,32 # batch, time, channels
+x = torch.randn(B,T,C)
 
-<span class="n">head_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span>
-<span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">head_size</span><span class="p">,</span><span class="w"> </span><span class="n">bias</span><span class="o">=</span><span class="kr">False</span><span class="p">)</span>
-<span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">head_size</span><span class="p">,</span><span class="w"> </span><span class="n">bias</span><span class="o">=</span><span class="kr">False</span><span class="p">)</span>
-<span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">head_size</span><span class="p">,</span><span class="w"> </span><span class="n">bias</span><span class="o">=</span><span class="kr">False</span><span class="p">)</span>
-<span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">key</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">   </span><span class="err">#</span><span class="w"> </span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span>
-<span class="n">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">query</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span>
-<span class="n">wei</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">q</span><span class="w"> </span><span class="err">@</span><span class="w"> </span><span class="n">k</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span><span class="w"> </span><span class="err">@</span><span class="w"> </span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">)</span><span class="w"> </span><span class="o">---&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">)</span>
+head_size = 16
+key = nn.Linear(C, head_size, bias=False)
+query = nn.Linear(C, head_size, bias=False)
+value = nn.Linear(C, head_size, bias=False)
+k = key(x)   # (B, T, 16)
+q = query(x) # (B, T, 16)
+wei =  q @ k.transpose(-2, -1) # (B, T, 16) @ (B, 16, T) ---&gt; (B, T, T)
 
-<span class="n">tril</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">torch</span><span class="p">.</span><span class="n">tril</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">))</span>
-<span class="cp">#wei = torch.zeros((T,T))</span>
-<span class="n">wei</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wei</span><span class="p">.</span><span class="n">masked_fill</span><span class="p">(</span><span class="n">tril</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">float</span><span class="p">(</span><span class="s">&#39;-inf&#39;</span><span class="p">))</span>
-<span class="n">wei</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">F</span><span class="p">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">wei</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+tril = torch.tril(torch.ones(T, T))
+#wei = torch.zeros((T,T))
+wei = wei.masked_fill(tril == 0, float('-inf'))
+wei = F.softmax(wei, dim=-1)
 
-<span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wei</span><span class="w"> </span><span class="err">@</span><span class="w"> </span><span class="n">v</span>
-<span class="cp">#out = wei @ x</span>
+v = value(x)
+out = wei @ v
+#out = wei @ x
 
-<span class="n">out</span><span class="p">.</span><span class="n">shape</span>
-</code></pre></div>
-
+out.shape
+</code></pre>
 <p>用自注意力构建</p>
 
 
@@ -1200,8 +1273,6 @@ QLYotouciullle'z  <br />
     
     
       <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
-      
-        <script src="../../javascripts/extra.js"></script>
       
     
   </body>

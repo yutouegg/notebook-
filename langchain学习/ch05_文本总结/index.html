@@ -50,8 +50,6 @@
       
     
     
-      <link rel="stylesheet" href="../../stylesheets/extra.css">
-    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -306,6 +304,24 @@
           
   
   报错
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Day1.md" class="md-tabs__link">
+          
+  
+  小米C++训练营
 
         </a>
       </li>
@@ -888,7 +904,75 @@
         
   
   <span class="md-ellipsis">
-    从0构建GPT
+    报错和解决
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    小米C++训练营
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            小米C++训练营
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Day1.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day1
   </span>
   
 
@@ -922,25 +1006,24 @@
 
   <h1>ch05文本总结</h1>
 
-<h2 id="langchain">使用langchain对文本进行摘要<a class="headerlink" href="#langchain" title="Permanent link">&para;</a></h2>
-<h3 id="1">1.仅用提示词进行摘要：<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">load_dotenv</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">ChatOpenAi</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<h2 id="langchain">使用langchain对文本进行摘要</h2>
+<h3 id="1">1.仅用提示词进行摘要：</h3>
+<pre><code>from dotenv import load_dotenv
+from langchain_openai import ChatOpenAi
+import os
 
-<span class="n">load_dotenv</span><span class="p">()</span>
-<span class="n">openai_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">)</span>
-<span class="n">llm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ChatOpenAI</span><span class="p">(</span><span class="n">openai_api_key</span><span class="o">=</span><span class="n">openai_api_key</span><span class="p">,</span><span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;gpt-4o&#39;</span><span class="p">)</span>
-</code></pre></div>
-
+load_dotenv()
+openai_key = os.getenv(&quot;OPENAI_API_KEY&quot;)
+llm = ChatOpenAI(openai_api_key=openai_api_key,model_name='gpt-4o')
+</code></pre>
 <p>创建提示词：</p>
-<div class="codehilite"><pre><span></span><code>from langchain.schema import(
+<pre><code>from langchain.schema import(
     AIMessage,
     HumanMessage,
     SystemMessage
 )
 
-<span class="gh">#</span>定义文章
+#定义文章
 speech=&quot;&quot;&quot;
 人工智能与深度学习：前沿技术的发展
 
@@ -957,88 +1040,86 @@ speech=&quot;&quot;&quot;
 &quot;&quot;&quot;
 
 chat_messages=[
-    SystemMessage(content=&#39;你是一个专业的助手擅长对文章进行总结&#39;),
-    HumanMessage(content=f&#39;请对下面的文章进行简短的摘要总结:\n TEXT: {speech}&#39;)
+    SystemMessage(content='你是一个专业的助手擅长对文章进行总结'),
+    HumanMessage(content=f'请对下面的文章进行简短的摘要总结:\n TEXT: {speech}')
 ]
 
 print(llm.invoke(chat_messages).content)
-</code></pre></div>
-
+</code></pre>
 <p>运行结果如下：<br />
 这篇文章概述了人工智能和深度学习的基本概念、应用领域和未来发展方向。如果你有兴趣深入了解，可以查阅相关的专业书籍和学术论文。    </p>
-<h3 id="2prompt-templates">2.使用Prompt Templates：<a class="headerlink" href="#2prompt-templates" title="Permanent link">&para;</a></h3>
+<h3 id="2prompt-templates">2.使用Prompt Templates：</h3>
 <p>要构建通用的文章摘要系统，提示词还是首选Prompt Templates</p>
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">LLMChain</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">langchain</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">PromptTemplate</span>
+<pre><code>from langchain.chains import LLMChain
+from langchain import PromptTemplate
 
-<span class="n">generic_template</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">对下面的文章进行总结:</span>
-<span class="s1">Speech : `</span><span class="si">{speech}</span><span class="s1">`</span>
-<span class="s1">将总结翻译成下方的语言 </span><span class="si">{language}</span><span class="s1">.</span>
+generic_template='''
+对下面的文章进行总结:
+Speech : `{speech}`
+将总结翻译成下方的语言 {language}.
 
-<span class="s1">&#39;&#39;&#39;</span>
-<span class="n">prompt</span><span class="o">=</span><span class="n">PromptTemplate</span><span class="p">(</span>
-<span class="w">    </span><span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;speech&#39;</span><span class="p">,</span><span class="s1">&#39;language&#39;</span><span class="p">],</span>
-<span class="w">    </span><span class="n">template</span><span class="o">=</span><span class="n">generic_template</span>
-<span class="p">)</span>
+'''
+prompt=PromptTemplate(
+    input_variables=['speech','language'],
+    template=generic_template
+)
 
-<span class="nb">print</span><span class="p">(</span><span class="n">prompt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">speech</span><span class="o">=</span><span class="n">speech</span><span class="p">,</span><span class="n">language</span><span class="o">=</span><span class="s1">&#39;English&#39;</span><span class="p">))</span>
-</code></pre></div>
+print(prompt.format(speech=speech,language='English'))
 
+</code></pre>
 <p>运行结果：<br />
 '\n对下面的文章进行总结:\nSpeech : <code>\n人工智能与深度学习：前沿技术的发展\n\n近年来，人工智能（AI）和深度学习技术在各个领域取得了显著的进展。深度学习是机器学习的一个子领域，它使用多层神经网络来学习数据的复杂模式。这些技术已经被广泛应用于图像识别、自然语言处理、自动驾驶等领域。\n\n深度学习的基础\n深度学习的核心在于神经网络模型，这些模型由多个层组成，每一层都试图学习输入数据的不同特征。常见的神经网络包括卷积神经网络（CNN）和循环神经网络（RNN），前者常用于图像处理，后者则在处理序列数据（如文本）方面表现优异。\n\n应用与挑战\n人工智能的应用范围非常广泛，从智能语音助手到医疗诊断，无处不在。然而，尽管取得了许多进展，人工智能技术仍面临许多挑战，例如模型的透明度、数据隐私问题，以及在真实世界场景中的适应性。\n\n未来展望\n随着计算能力的提升和数据量的增加，深度学习技术有望在更多领域发挥作用。研究人员正在探索更高效的模型和算法，以解决当前的技术瓶颈，并进一步推进人工智能的发展。\n</code>\n将总结翻译成下方的语言 English.\n\n'</p>
-<h3 id="3summarize_chain">3.使用summarize_chain进行总结：<a class="headerlink" href="#3summarize_chain" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">PyPDF2</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">PdfReader</span>
+<h3 id="3summarize_chain">3.使用summarize_chain进行总结：</h3>
+<pre><code>from PyPDF2 import PdfReader
 
-<span class="n">pdfreader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PdfReader</span><span class="p">(</span><span class="n">pdf_path</span><span class="p">)</span>
+pdfreader = PdfReader(pdf_path)
 
-<span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
-<span class="c1">#将每一页的文字转成字符串格式</span>
-<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">page</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">enumerate</span><span class="p">(</span><span class="n">pdfreader</span><span class="o">.</span><span class="n">pages</span><span class="p">):</span>
-<span class="w">    </span><span class="n">content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">page</span><span class="o">.</span><span class="n">extract_text</span><span class="p">()</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">content</span><span class="p">:</span>
-<span class="w">        </span><span class="n">text</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">content</span>
+text = ''
+#将每一页的文字转成字符串格式
+for i, page in enumerate(pdfreader.pages):
+    content = page.extract_text()
+    if content:
+        text += content
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.docstore.document</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">Document</span>
-<span class="n">docs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">text</span><span class="p">)]</span>
-</code></pre></div>
-
+from langchain.docstore.document import Document
+docs = [Document(page_content=text)]
+</code></pre>
 <p>将字符串格式的文本转成document格式主要是因为：<br />
 <em> langchin通过统一的接口处理各种文档，即是document。这种一致性使得系统更易于扩展和维护。<br />
 </em> Document 对象通常包含元数据，如文档的标题、作者、发布日期等。这些信息有助于更好地理解和处理文本内容。  </p>
-<div class="codehilite"><pre><span></span><code><span class="n">template</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;&#39;请对下面的文章进行简短的摘要总结:</span>
-<span class="s1">Speech: `</span><span class="si">{text}</span><span class="s1">`</span>
-<span class="s1">&#39;&#39;&#39;</span>
-<span class="n">prompt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PromptTemplate</span><span class="p">(</span>
-<span class="w">    </span><span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">],</span>
-<span class="w">    </span><span class="n">template</span><span class="o">=</span><span class="n">template</span>
-<span class="p">)</span>
+<pre><code>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains.summarize</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">load_summarize_chain</span>
+template = '''请对下面的文章进行简短的摘要总结:
+Speech: `{text}`
+'''
+prompt = PromptTemplate(
+    input_variables=['text'],
+    template=template
+)
 
-<span class="n">chain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load_summarize_chain</span><span class="p">(</span>
-<span class="w">    </span><span class="n">llm</span><span class="p">,</span>
-<span class="w">    </span><span class="n">chain_type</span><span class="o">=</span><span class="s1">&#39;stuff&#39;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span>
-<span class="w">    </span><span class="n">verbose</span><span class="o">=</span><span class="kc">False</span>
-<span class="p">)</span>
-<span class="n">output_summary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
-</code></pre></div>
+from langchain.chains.summarize import load_summarize_chain
 
-<h3 id="4map-reduce">4.Map Reduce对长文本进行总结：<a class="headerlink" href="#4map-reduce" title="Permanent link">&para;</a></h3>
+chain = load_summarize_chain(
+    llm,
+    chain_type='stuff',
+    prompt=prompt,
+    verbose=False
+)
+output_summary = chain.invoke(docs)
+</code></pre>
+<h3 id="4map-reduce">4.Map Reduce对长文本进行总结：</h3>
 <p>将文本进行分词逐个总结：  </p>
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.text_splitter</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">RecursiveCharacterTextSplitter</span>
-<span class="n">text_splitter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RecursiveCharacterTextSplitter</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="n">chunk_overlap</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">chunks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">text_splitter</span><span class="o">.</span><span class="n">create_documents</span><span class="p">([</span><span class="n">text</span><span class="p">])</span>
+<pre><code>from langchain.text_splitter import RecursiveCharacterTextSplitter
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=20)
+chunks = text_splitter.create_documents([text])
 
-<span class="n">chain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load_summarize_chain</span><span class="p">(</span>
-<span class="w">    </span><span class="n">llm</span><span class="p">,</span>
-<span class="w">    </span><span class="n">chain_type</span><span class="o">=</span><span class="s1">&#39;map_reduce&#39;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">verbose</span><span class="o">=</span><span class="kc">False</span>
-<span class="p">)</span>
-<span class="n">summary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chain</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">chunks</span><span class="p">)</span>
-</code></pre></div>
-
+chain = load_summarize_chain(
+    llm,
+    chain_type='map_reduce',
+    verbose=False
+)
+summary = chain.run(chunks)
+</code></pre>
 <p>这个文档的摘要质量与分段大小和重叠大小的选择也有很大的关系   </p>
 
 
@@ -1092,8 +1173,6 @@ print(llm.invoke(chat_messages).content)
     
     
       <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
-      
-        <script src="../../javascripts/extra.js"></script>
       
     
   </body>

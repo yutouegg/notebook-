@@ -50,8 +50,6 @@
       
     
     
-      <link rel="stylesheet" href="../../stylesheets/extra.css">
-    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -306,6 +304,24 @@
           
   
   报错
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Day1.md" class="md-tabs__link">
+          
+  
+  小米C++训练营
 
         </a>
       </li>
@@ -897,7 +913,75 @@
         
   
   <span class="md-ellipsis">
-    从0构建GPT
+    报错和解决
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    小米C++训练营
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            小米C++训练营
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Day1.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Day1
   </span>
   
 
@@ -931,113 +1015,109 @@
 
   <h1>ch04langchain_pdf</h1>
 
-<h2 id="langchainpdf">langchain读取pdf内容结合大模型进行问答<a class="headerlink" href="#langchainpdf" title="Permanent link">&para;</a></h2>
-<h3 id="1">1.导入相关模块：<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.prompts</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">PromptTemplate</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">streamlit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">st</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">PyPDF2</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">PdfReader</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.text_splitter</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">RecursiveCharacterTextSplitter</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_google_genai</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">GoogleGenerativeAIEmbeddings</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">google.generativeai</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">genai</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_community.vectorstores</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">FAISS</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_google_genai</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">ChatGoogleGenerativeAI</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains.question_answering</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">load_qa_chain</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.prompts</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">PromptTemplate</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">load_dotenv</span>
+<h2 id="langchainpdf">langchain读取pdf内容结合大模型进行问答</h2>
+<h3 id="1">1.导入相关模块：</h3>
+<pre><code>from langchain_core.prompts import PromptTemplate
+import streamlit as st
+from PyPDF2 import PdfReader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+import os
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+import google.generativeai as genai
+from langchain_community.vectorstores import FAISS
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain.chains.question_answering import load_qa_chain
+from langchain.prompts import PromptTemplate
+from dotenv import load_dotenv
 
-<span class="n">load_dotenv</span><span class="p">()</span>
-<span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GOOGLE_API_KEY&quot;</span><span class="p">)</span>
-<span class="n">genai</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GOOGLE_API_KEY&quot;</span><span class="p">))</span>
-</code></pre></div>
-
+load_dotenv()
+os.getenv(&quot;GOOGLE_API_KEY&quot;)
+genai.configure(api_key=os.getenv(&quot;GOOGLE_API_KEY&quot;))
+</code></pre>
 <p>load_dotenv()是从.env环境中读取GOOGLE_API_KEY。在上传github时，.env文件应该放到gitignre文件中去。</p>
-<h3 id="2pdf">2.读取pdf：<a class="headerlink" href="#2pdf" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>def get_pdf_text(pdf_docs):
+<h3 id="2pdf">2.读取pdf：</h3>
+<pre><code>def get_pdf_text(pdf_docs):
     text=&quot;&quot;
     for pdf in pdf_docs:
         pdf_reader= PdfReader(pdf)
         for page in pdf_reader.pages:
             text+= page.extract_text()
     return  text
-</code></pre></div>
-
+</code></pre>
 <p>使用的是PyPdf专门处理pdf的库。这里也可以使用  </p>
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_community.document_loaders</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">PyPDFLoader</span>
-</code></pre></div>
-
+<pre><code>from langchain_community.document_loaders import PyPDFLoader
+</code></pre>
 <p>的PyPDFLoader进行读取，二者效果差不多。</p>
-<h3 id="3pdf">3.处理pdf：<a class="headerlink" href="#3pdf" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="nx">def</span><span class="w"> </span><span class="nx">get_text_chunks</span><span class="p">(</span><span class="nx">text</span><span class="p">):</span>
-<span class="w">    </span><span class="nx">text_splitter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">RecursiveCharacterTextSplitter</span><span class="p">(</span><span class="nx">chunk_size</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span><span class="w"> </span><span class="nx">chunk_overlap</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">chunks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">text_splitter.split_text</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">chunks</span>
+<h3 id="3pdf">3.处理pdf：</h3>
+<pre><code>def get_text_chunks(text):
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=1000)
+    chunks = text_splitter.split_text(text)
+    return chunks
 
 
-<span class="nx">def</span><span class="w"> </span><span class="nx">get_vector_store</span><span class="p">(</span><span class="nx">text_chunks</span><span class="p">):</span>
-<span class="w">    </span><span class="nx">embeddings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">GoogleGenerativeAIEmbeddings</span><span class="p">(</span><span class="nx">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;models/embedding-001&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">vector_store</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">FAISS.from_texts</span><span class="p">(</span><span class="nx">text_chunks</span><span class="p">,</span><span class="w"> </span><span class="nx">embedding</span><span class="o">=</span><span class="nx">embeddings</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">vector_store.save_local</span><span class="p">(</span><span class="s2">&quot;faiss_index&quot;</span><span class="p">)</span>
-</code></pre></div>
+def get_vector_store(text_chunks):
+    embeddings = GoogleGenerativeAIEmbeddings(model = &quot;models/embedding-001&quot;)
+    vector_store = FAISS.from_texts(text_chunks, embedding=embeddings)
+    vector_store.save_local(&quot;faiss_index&quot;)
 
+</code></pre>
 <p>这是将pdf的内容进行分块后嵌入成向量存入向量库当中去。</p>
-<h3 id="4">4.定义问答逻辑：<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="n">def</span><span class="w"> </span><span class="n">get_conversational_chain</span><span class="p">():</span>
+<h3 id="4">4.定义问答逻辑：</h3>
+<pre><code>def get_conversational_chain():
 
-<span class="w">    </span><span class="n">prompt_template</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    根据提供的上下文尽可能详细地回答问题，确保提供所有细节。如果答案不在提供的上下文中，请只说“上下文中没有可用答案”，不要提供错误的答案。/n 上下文： {context} /n 问题： {question}</span>
-<span class="s2">    Answer:</span>
-<span class="s2">    &quot;&quot;&quot;</span>
+    prompt_template = &quot;&quot;&quot;
+    根据提供的上下文尽可能详细地回答问题，确保提供所有细节。如果答案不在提供的上下文中，请只说“上下文中没有可用答案”，不要提供错误的答案。/n 上下文： {context} /n 问题： {question}
+    Answer:
+    &quot;&quot;&quot;
 
-<span class="w">    </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ChatGoogleGenerativeAI</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;gemini-pro&quot;</span><span class="p">,</span>
-<span class="w">                             </span><span class="n">temperature</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    model = ChatGoogleGenerativeAI(model=&quot;gemini-pro&quot;,
+                             temperature=0.3)
 
-<span class="w">    </span><span class="n">prompt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PromptTemplate</span><span class="p">(</span><span class="n">template</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prompt_template</span><span class="p">,</span><span class="w"> </span><span class="n">input_variables</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;context&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;question&quot;</span><span class="p">])</span>
-<span class="w">    </span><span class="n">chain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load_qa_chain</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">chain_type</span><span class="o">=</span><span class="s2">&quot;stuff&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">)</span>
+    prompt = PromptTemplate(template = prompt_template, input_variables = [&quot;context&quot;, &quot;question&quot;])
+    chain = load_qa_chain(model, chain_type=&quot;stuff&quot;, prompt=prompt)
 
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">chain</span>
-
-
-
-<span class="n">def</span><span class="w"> </span><span class="n">user_input</span><span class="p">(</span><span class="n">user_question</span><span class="p">):</span>
-<span class="w">    </span><span class="n">embeddings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GoogleGenerativeAIEmbeddings</span><span class="p">(</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;models/embedding-001&quot;</span><span class="p">)</span>
-
-<span class="w">    </span><span class="n">new_db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FAISS</span><span class="o">.</span><span class="n">load_local</span><span class="p">(</span><span class="s2">&quot;faiss_index&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">embeddings</span><span class="p">)</span>
-<span class="w">    </span><span class="n">docs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_db</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span><span class="n">user_question</span><span class="p">)</span>
-
-<span class="w">    </span><span class="n">chain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_conversational_chain</span><span class="p">()</span>
+    return chain
 
 
-<span class="w">    </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chain</span><span class="p">(</span>
-<span class="w">        </span><span class="p">{</span><span class="s2">&quot;input_documents&quot;</span><span class="p">:</span><span class="n">docs</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;question&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">user_question</span><span class="p">}</span>
-<span class="w">        </span><span class="p">,</span><span class="w"> </span><span class="n">return_only_outputs</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
 
-<span class="w">    </span><span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
-<span class="w">    </span><span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Reply: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;output_text&quot;</span><span class="p">])</span>
-</code></pre></div>
+def user_input(user_question):
+    embeddings = GoogleGenerativeAIEmbeddings(model = &quot;models/embedding-001&quot;)
 
+    new_db = FAISS.load_local(&quot;faiss_index&quot;, embeddings)
+    docs = new_db.similarity_search(user_question)
+
+    chain = get_conversational_chain()
+
+
+    response = chain(
+        {&quot;input_documents&quot;:docs, &quot;question&quot;: user_question}
+        , return_only_outputs=True)
+
+    print(response)
+    st.write(&quot;Reply: &quot;, response[&quot;output_text&quot;])
+
+</code></pre>
 <p>将向量库中的内容提取出来并通过提示词让gemini回答用户的问题  </p>
-<h3 id="5">5.主逻辑：<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="n">def</span><span class="w"> </span><span class="n">main</span><span class="p">():</span>
-<span class="w">    </span><span class="n">st</span><span class="o">.</span><span class="n">set_page_config</span><span class="p">(</span><span class="s2">&quot;Chat PDF&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="n">st</span><span class="o">.</span><span class="n">header</span><span class="p">(</span><span class="s2">&quot;Chat with PDF using Gemini💁&quot;</span><span class="p">)</span>
+<h3 id="5">5.主逻辑：</h3>
+<pre><code>def main():
+    st.set_page_config(&quot;Chat PDF&quot;)
+    st.header(&quot;Chat with PDF using Gemini💁&quot;)
 
-<span class="w">    </span><span class="n">user_question</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;Ask a Question from the PDF Files&quot;</span><span class="p">)</span>
+    user_question = st.text_input(&quot;Ask a Question from the PDF Files&quot;)
 
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">user_question</span><span class="p">:</span>
-<span class="w">        </span><span class="n">user_input</span><span class="p">(</span><span class="n">user_question</span><span class="p">)</span>
+    if user_question:
+        user_input(user_question)
 
-<span class="w">    </span><span class="n">with</span><span class="w"> </span><span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="p">:</span>
-<span class="w">        </span><span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Menu:&quot;</span><span class="p">)</span>
-<span class="w">        </span><span class="n">pdf_docs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">st</span><span class="o">.</span><span class="n">file_uploader</span><span class="p">(</span><span class="s2">&quot;Upload your PDF Files and Click on the Submit &amp; Process Button&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">accept_multiple_files</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Submit &amp; Process&quot;</span><span class="p">):</span>
-<span class="w">            </span><span class="n">with</span><span class="w"> </span><span class="n">st</span><span class="o">.</span><span class="n">spinner</span><span class="p">(</span><span class="s2">&quot;Processing...&quot;</span><span class="p">):</span>
-<span class="w">                </span><span class="n">raw_text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_pdf_text</span><span class="p">(</span><span class="n">pdf_docs</span><span class="p">)</span>
-<span class="w">                </span><span class="n">text_chunks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_text_chunks</span><span class="p">(</span><span class="n">raw_text</span><span class="p">)</span>
-<span class="w">                </span><span class="n">get_vector_store</span><span class="p">(</span><span class="n">text_chunks</span><span class="p">)</span>
-<span class="w">                </span><span class="n">st</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="s2">&quot;Done&quot;</span><span class="p">)</span>
-</code></pre></div>
-
+    with st.sidebar:
+        st.title(&quot;Menu:&quot;)
+        pdf_docs = st.file_uploader(&quot;Upload your PDF Files and Click on the Submit &amp; Process Button&quot;, accept_multiple_files=True)
+        if st.button(&quot;Submit &amp; Process&quot;):
+            with st.spinner(&quot;Processing...&quot;):
+                raw_text = get_pdf_text(pdf_docs)
+                text_chunks = get_text_chunks(raw_text)
+                get_vector_store(text_chunks)
+                st.success(&quot;Done&quot;)
+</code></pre>
 <p>通过streamlit做一个展示页面，用户上传pdf解析后根据pdf内容进行提问</p>
 
 
@@ -1091,8 +1171,6 @@
     
     
       <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
-      
-        <script src="../../javascripts/extra.js"></script>
       
     
   </body>
