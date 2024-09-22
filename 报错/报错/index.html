@@ -349,10 +349,10 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../transformers%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85/transformers%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85/" class="md-tabs__link">
+        <a href="../../%E9%85%8D%E7%BD%AE/transformers%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85/" class="md-tabs__link">
           
   
-  transformers离线安装
+  配置相关
 
         </a>
       </li>
@@ -1140,7 +1140,7 @@
             
   
   <span class="md-ellipsis">
-    transformers离线安装
+    配置相关
   </span>
   
 
@@ -1150,7 +1150,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
-            transformers离线安装
+            配置相关
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1161,11 +1161,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../../transformers%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85/transformers%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85/" class="md-nav__link">
+      <a href="../../%E9%85%8D%E7%BD%AE/transformers%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     transformers离线安装
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E9%85%8D%E7%BD%AE/conda%E7%8E%AF%E5%A2%83%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    conda环境离线安装
   </span>
   
 
@@ -1199,7 +1220,30 @@
 
   <h1>报错和解决</h1>
 
-
+<ul>
+<li>运行<code>python -m vllm.entrypoints.openai.api_server --served-model-name Qwen2-VL-7B-Instruct --model /root/autodl-tmp//qwen/Qwen2-VL-7B-Instruct</code><br />
+报错:
+<code>Unrecognized keys in rope_scaling for 'rope_type'='default': {'mrope_section'}  
+....  
+ assert "factor" in rope_scaling</code><br />
+原因：  </li>
+<li>大模型配置文件中，rope_scaling的type出现了未定义的类型</li>
+<li>
+<p>rope_scaling没有定义factor的值<br />
+解决：修改config.json中rope_scaling参数的值或者初始化llm的时候手动指定  </p>
+</li>
+<li>
+<p><code>ValueError: No available memory for the cache blocks. Try increasing gpu_memory_utilization when initializing the engine.
+ERROR 09-20 23:10:47 api_server.py:188] RPCServer process died before responding to readiness probe</code><br />
+原因： GPU内存不足<br />
+解决：提高GPU利用率，或者降低大模型对gpu的要求：<br />
+<code>python -m vllm.entrypoints.openai.api_server \
+  --served-model-name Qwen2-VL-7B-Instruct \
+  --model /root/autodl-tmp//qwen/Qwen2-VL-7B-Instruct \
+  --gpu-memory-utilization 0.98 \
+  --max-model-len 18256</code></p>
+</li>
+</ul>
 
 
 

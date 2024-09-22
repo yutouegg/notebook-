@@ -13,7 +13,7 @@
       
       
       
-        <link rel="prev" href="../../%E8%A7%86%E9%A2%91%E6%8A%96%E5%8A%A8%E6%A3%80%E6%B5%8B/%E6%8A%96%E5%8A%A8%E6%A3%80%E6%B5%8B/">
+        <link rel="prev" href="../transformers%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85/">
       
       
       
@@ -22,7 +22,7 @@
     
     
       
-        <title>transformers离线安装 - 我的学习笔记</title>
+        <title>conda环境离线安装 - 我的学习笔记</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#1" class="md-skip">
+        <a href="#1conda-pack" class="md-skip">
           跳转至
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              transformers离线安装
+              conda环境离线安装
             
           </span>
         </div>
@@ -352,10 +352,10 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+        <a href="../transformers%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85/" class="md-tabs__link">
           
   
-  transformers离线安装
+  配置相关
 
         </a>
       </li>
@@ -1135,7 +1135,7 @@
             
   
   <span class="md-ellipsis">
-    transformers离线安装
+    配置相关
   </span>
   
 
@@ -1145,9 +1145,30 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
-            transformers离线安装
+            配置相关
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transformers%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    transformers离线安装
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1162,71 +1183,18 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    transformers离线安装
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
-    transformers离线安装
+    conda环境离线安装
   </span>
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1" class="md-nav__link">
-    <span class="md-ellipsis">
-      1.在有网络的地方运行：
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2wheels" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.创建wheels文件：
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3wheels" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.进入有wheels文件的目录
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -1255,20 +1223,22 @@
                   
 
 
-  <h1>transformers离线安装</h1>
-
-<h2 id="1">1.在有网络的地方运行：</h2>
-<pre><code class="language-commandline">git clone https://github.com/huggingface/transformers.git
-cd transformers
-</code></pre>
-<h2 id="2wheels">2.创建wheels文件：</h2>
-<pre><code class="language-commandlin">pip wheel --no-deps -w ./wheels .
-</code></pre>
-<h2 id="3wheels">3.进入有wheels文件的目录</h2>
-<pre><code class="language-commandline">pip install --no-index --find-links=. transformers
-</code></pre>
-<p>注：下载整个transformers项目太大，太慢，可以只下载main分支：
-<code>git clone --single-branch --branch main git@github.com:huggingface/transformers.git</code></p>
+<h1 id="1conda-pack">1.安装conda-pack</h1>
+<p><code>conda install -c conda-forge conda-pack</code></p>
+<h1 id="2">2.打包环境</h1>
+<p><code>conda pack -n env_name -o env_name.tar.gz</code></p>
+<h1 id="3">3.将编译后的文件传到目标机</h1>
+<h1 id="4condaenv">4.找到conda的env：</h1>
+<p><code>find ~/ -name "miniconda3" -type d 2&gt;/dev/null</code>
+或者<code>find ~/ -name "anaconda3" -type d 2&gt;/dev/null</code>  </p>
+<h1 id="5env">5.在env目录创建新目录解压</h1>
+<p><code>mkdir -p your_env_name</code>
+<code>tar -xzf /path/to/packed_env.tar.gz -C your_env_name</code>  </p>
+<h1 id="6">6.激活环境</h1>
+<p><code>source your_env_name/bin/activate</code> <br />
+<code>conda-unpack</code></p>
+<h1 id="7">7.手动安装：</h1>
+<p>source ~/anaconda3/envs/your_env_name/bin/activate</p>
 
 
 
