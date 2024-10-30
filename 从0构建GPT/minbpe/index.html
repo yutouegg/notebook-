@@ -13,8 +13,10 @@
       
       
       
-        <link rel="prev" href="../../%E9%85%8D%E7%BD%AE/conda%E7%8E%AF%E5%A2%83%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85/">
+        <link rel="prev" href="../%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/">
       
+      
+        <link rel="next" href="../../%E6%8A%A5%E9%94%99/%E6%8A%A5%E9%94%99/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +24,7 @@
     
     
       
-        <title>基于PDF的RAG - 我的学习笔记</title>
+        <title>构建简单的toknizer - 我的学习笔记</title>
       
     
     
@@ -74,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#pdf" class="md-skip">
+        <a href="#minbpetokenizer" class="md-skip">
           跳转至
         </a>
       
@@ -108,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              基于PDF的RAG
+              构建简单的toknizer
             
           </span>
         </div>
@@ -274,11 +276,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/" class="md-tabs__link">
           
   
   从0构建GPT
@@ -364,13 +368,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../LLM%E5%AE%9E%E6%88%98/pdf_rag/" class="md-tabs__link">
           
   
   LLM实战
@@ -749,25 +751,30 @@
       
   
   
+    
   
   
+  
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -778,7 +785,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             从0构建GPT
@@ -792,7 +799,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/" class="md-nav__link">
+      <a href="../%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -810,10 +817,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../%E4%BB%8E0%E6%9E%84%E5%BB%BAGPT/minbpe/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    构建简单的toknizer
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -822,6 +849,62 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#minbpe" class="md-nav__link">
+    <span class="md-ellipsis">
+      minbpe的思想：
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      特点：
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      实现：
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#minbpe_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      手搓Minbpe代码
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1236,30 +1319,25 @@
       
   
   
-    
   
   
-  
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
         
           
-          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -1270,7 +1348,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             LLM实战
@@ -1281,30 +1359,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    基于PDF的RAG
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../LLM%E5%AE%9E%E6%88%98/pdf_rag/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1313,53 +1371,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      项目实现步骤：
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      最终结果：
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      相关代码：
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1387,21 +1398,23 @@
                   
 
 
-<h1 id="pdf">本项目是基于用户上传的PDF做检索的问答系统</h1>
-<h2 id="_1">项目实现步骤：</h2>
+<h1 id="minbpetokenizer">基于minbpe的字节级的tokenizer</h1>
+<h2 id="minbpe">minbpe的思想：</h2>
+<p>MinBPE是Byte Pair Encoding (BPE) 算法的一个简化实现。  </p>
+<h2 id="_1">特点：</h2>
 <ul>
-<li>大模型选取与部署：本项目使用的是最近刚出的qwen2.5-7B,我是部署在ollama上通过openai接口调用的</li>
-<li>RAG功能实现：  </li>
-<li>将文档分成无数个512k大小的chunk</li>
-<li>使用大模型评估用户输入的prompt与每个chunk是否有关系，有就提取出来，没有就输出None。</li>
-<li>通过多线程调用大模型评估</li>
-<li>预处理一下输入prompt,提取prompt中的问题，指令和关键词，然后通过BM250算法在评估好的chunk中提取相关信息</li>
-<li>传给大模型进行最终回答</li>
+<li>实现简单，往往只需要一点代码</li>
+<li>无需预处理：不需要复杂的文本预处理步骤。（直接将字符变成byte操作）</li>
 </ul>
-<h2 id="_2">最终结果：</h2>
-<p><img alt="test" src="../../image/Qwen_rag/01.png" /></p>
-<h2 id="_3">相关代码：</h2>
-<p><a href="https://github.com/yutouegg/Qwen_rag">github地址</a></p>
+<h2 id="_2">实现：</h2>
+<ul>
+<li>将词表初始化为256个字节的大小</li>
+<li>统计所有相邻字节对的频率。</li>
+<li>将出现最高频率的字节对加入词表中</li>
+<li>重复步骤2-3，直到达到预定的词汇量大小。</li>
+</ul>
+<h2 id="minbpe_1">手搓Minbpe代码</h2>
+<p><a href="https://github.com/yutouegg/tokenizer">github地址</a></p>
 
 
 
